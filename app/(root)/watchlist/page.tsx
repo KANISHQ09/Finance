@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { Star } from 'lucide-react';
 import { searchStocks } from '@/lib/actions/finnhub.actions';
 import SearchCommand from '@/components/SearchCommand';
@@ -8,7 +10,6 @@ const Watchlist = async () => {
   const watchlist = await getWatchlistWithData();
   const initialStocks = await searchStocks();
 
-  // Empty state
   if (watchlist.length === 0) {
     return (
       <section className="flex watchlist-empty-container">
