@@ -215,6 +215,24 @@ declare global {
         threshold: number;
         changePercent?: number;
     };
+    
+    type AgentConfig = {
+        id: string;
+        name: string;
+        description: string;
+        icon: string;
+        apiUrl: string;
+        systemPrompt: string;
+        metadata: {
+            agent_role: string;
+            agent_goal: string;
+        };
+    };
+    
+    type AgentApiReply = {
+        reply: string;
+        sources: Array<{ title: string; link: string }>;
+    };
 }
 
 export {};
