@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/codenext-labs/banner/main/finnext-banner.png" alt="FinNext Banner" width="100%" />
+  <img width="1897" height="1067" alt="Screenshot 2025-11-29 111800" src="https://github.com/user-attachments/assets/c801b3aa-c2b0-4997-bce8-6393929b47f3" />
 </p>
 
 <h1 align="center">🚀 FinNext — AI-Powered Stock Analysis Platform</h1>
