@@ -48,7 +48,7 @@ export default function ProfilePage() {
   if (loading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
-        <Loader2 size={32} style={{ animation: 'spin 1s linear infinite', color: '#FDD458' }} />
+        <Loader2 size={32} style={{ animation: 'spin 1s linear infinite', color: '#3B82F6' }} />
       </div>
     );
   }
@@ -58,7 +58,7 @@ export default function ProfilePage() {
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16 }}>
         <div className="profile-header-icon">
-          <User className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: '#FDD458' }} />
+          <User className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: '#3B82F6' }} />
         </div>
         <div>
           <h1 className="profile-header-title">
@@ -74,7 +74,7 @@ export default function ProfilePage() {
         {/* Profile Settings */}
         <div className="profile-card">
           <h2 style={{ color: '#f5f5f5', fontSize: 18, fontWeight: 700, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
-            <Target size={18} style={{ color: '#FDD458' }} /> Preferences
+            <Target size={18} style={{ color: '#3B82F6' }} /> Preferences
           </h2>
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
@@ -114,9 +114,9 @@ export default function ProfilePage() {
                 disabled={saving}
                 style={{
                   padding: '10px 20px', borderRadius: 8,
-                  background: saved ? 'rgba(15,237,190,0.1)' : 'rgba(253,212,88,0.1)',
-                  border: saved ? '1px solid rgba(15,237,190,0.3)' : '1px solid rgba(253,212,88,0.3)',
-                  color: saved ? '#0FEDBE' : '#FDD458', fontSize: 14, fontWeight: 600, cursor: 'pointer',
+                  background: saved ? 'rgba(15,237,190,0.1)' : 'rgba(59,130,246,0.1)',
+                  border: saved ? '1px solid rgba(15,237,190,0.3)' : '1px solid rgba(59,130,246,0.3)',
+                  color: saved ? '#0FEDBE' : '#3B82F6', fontSize: 14, fontWeight: 600, cursor: 'pointer',
                   display: 'inline-flex', alignItems: 'center', gap: 6, transition: 'all 0.2s',
                 }}
               >

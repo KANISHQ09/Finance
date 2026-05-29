@@ -108,9 +108,9 @@ export function Chatbot({ portfolioTickers = [], onDashboardAction, fullPage = f
       <div className="chatbot-header">
         <div style={{
           width: 40, height: 40, borderRadius: 10,
-          background: 'linear-gradient(135deg, #FDD458, #f5a623)',
+          background: 'linear-gradient(135deg, #3B82F6, #f5a623)',
           display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-          boxShadow: '0 0 16px rgba(253,212,88,0.4)',
+          boxShadow: '0 0 16px rgba(59,130,246,0.4)',
         }}>
           <Bot size={20} style={{ color: '#050505' }} />
         </div>
@@ -149,7 +149,7 @@ export function Chatbot({ portfolioTickers = [], onDashboardAction, fullPage = f
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <div style={{
                       width: 26, height: 26, borderRadius: 7,
-                      background: 'linear-gradient(135deg, #FDD458, #f5a623)',
+                      background: 'linear-gradient(135deg, #3B82F6, #f5a623)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                     }}>
                       <Bot size={14} style={{ color: '#050505' }} />
@@ -164,14 +164,14 @@ export function Chatbot({ portfolioTickers = [], onDashboardAction, fullPage = f
                   padding: '13px 18px',
                   fontSize: 15,
                   background: msg.role === 'user'
-                    ? 'linear-gradient(135deg, #FDD458, #f5a623)'
+                    ? 'linear-gradient(135deg, #3B82F6, #f5a623)'
                     : '#1A1D22',
                   color: msg.role === 'user' ? '#050505' : '#CCDADC',
                   border: msg.role === 'assistant' ? '1px solid #2A2D35' : 'none',
                   fontWeight: msg.role === 'user' ? 600 : 400,
                   lineHeight: 1.7,
                   boxShadow: msg.role === 'user'
-                    ? '0 2px 12px rgba(253,212,88,0.2)'
+                    ? '0 2px 12px rgba(59,130,246,0.2)'
                     : '0 2px 8px rgba(0,0,0,0.3)',
                 }}>
                   <MessageText text={msg.content} />
@@ -196,9 +196,9 @@ export function Chatbot({ portfolioTickers = [], onDashboardAction, fullPage = f
                                 href={`/stocks/${ticker}`}
                                 style={{
                                   padding: '7px 14px', borderRadius: 10,
-                                  background: 'rgba(253,212,88,0.1)',
-                                  border: '1px solid rgba(253,212,88,0.4)',
-                                  color: '#FDD458',
+                                  background: 'rgba(59,130,246,0.1)',
+                                  border: '1px solid rgba(59,130,246,0.4)',
+                                  color: '#3B82F6',
                                   fontSize: 14, fontWeight: 700,
                                   textDecoration: 'none',
                                   display: 'flex', alignItems: 'center', gap: 6,
@@ -233,7 +233,7 @@ export function Chatbot({ portfolioTickers = [], onDashboardAction, fullPage = f
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <div style={{
                     width: 26, height: 26, borderRadius: 7,
-                    background: 'linear-gradient(135deg, #FDD458, #f5a623)',
+                    background: 'linear-gradient(135deg, #3B82F6, #f5a623)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
                     <Bot size={14} style={{ color: '#050505' }} />
@@ -247,7 +247,7 @@ export function Chatbot({ portfolioTickers = [], onDashboardAction, fullPage = f
                 }}>
                   {[0, 1, 2].map(d => (
                     <span key={d} style={{
-                      width: 9, height: 9, borderRadius: '50%', background: '#FDD458',
+                      width: 9, height: 9, borderRadius: '50%', background: '#3B82F6',
                       display: 'inline-block',
                       animation: `bounce 1.2s ease-in-out ${d * 0.18}s infinite`,
                     }} />
@@ -272,9 +272,9 @@ export function Chatbot({ portfolioTickers = [], onDashboardAction, fullPage = f
                   textAlign: 'left',
                 }}
                 onMouseEnter={e => {
-                  e.currentTarget.style.borderColor = '#FDD458';
-                  e.currentTarget.style.color = '#FDD458';
-                  e.currentTarget.style.background = 'rgba(253,212,88,0.07)';
+                  e.currentTarget.style.borderColor = '#3B82F6';
+                  e.currentTarget.style.color = '#3B82F6';
+                  e.currentTarget.style.background = 'rgba(59,130,246,0.07)';
                 }}
                 onMouseLeave={e => {
                   e.currentTarget.style.borderColor = '#2A2D35';

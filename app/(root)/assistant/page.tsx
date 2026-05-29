@@ -16,7 +16,7 @@ const CAPABILITIES = [
     icon: FlaskConical,
     title: 'Virtual Sandbox Trades',
     desc: 'Ask the assistant to execute paper-trades directly inside your virtual sandbox.',
-    color: '#FDD458',
+    color: '#3B82F6',
   },
   {
     icon: ShieldCheck,
@@ -87,14 +87,14 @@ export default function AssistantPage() {
     doc.rect(0, 0, 210, 42, 'F');
 
     doc.setFontSize(22);
-    doc.setTextColor(253, 212, 88); // Yellow primary
+    doc.setTextColor(59, 130, 246); // Yellow primary
     doc.text('FINNEXT — AI PORTFOLIO DEPTH REPORT', 20, 25);
     
     doc.setFontSize(9);
     doc.setTextColor(150, 150, 150);
     doc.text(`CONFIDENTIAL // COMPILED SECURELY VIA FINNEXT AI & MONGOOSE DATA`, 20, 34);
 
-    doc.setDrawColor(253, 212, 88);
+    doc.setDrawColor(59, 130, 246);
     doc.setLineWidth(1);
     doc.line(20, 42, 190, 42);
 
@@ -189,7 +189,7 @@ export default function AssistantPage() {
       {/* Header */}
       <div className="assistant-header">
         <div className="assistant-header-icon">
-          <Bot className="w-6 h-6 sm:w-[30px] sm:h-[30px]" style={{ color: '#FDD458' }} />
+          <Bot className="w-6 h-6 sm:w-[30px] sm:h-[30px]" style={{ color: '#3B82F6' }} />
         </div>
         <div>
           <h1 className="assistant-header-title">
@@ -212,9 +212,9 @@ export default function AssistantPage() {
         <div className="assistant-sidebar">
 
           {/* Depth Report trigger card */}
-          <div className="assistant-card" style={{ background: 'linear-gradient(135deg, rgba(253,212,88,0.08) 0%, rgba(20,20,20,0.6) 100%)', borderColor: 'rgba(253,212,88,0.2)' }}>
+          <div className="assistant-card" style={{ background: 'linear-gradient(135deg, rgba(59,130,246,0.08) 0%, rgba(20,20,20,0.6) 100%)', borderColor: 'rgba(59,130,246,0.2)' }}>
             <h3 style={{ color: '#f5f5f5', fontSize: 17, fontWeight: 700, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 10 }}>
-              <BarChart2 size={18} style={{ color: '#FDD458' }} /> AI Strategic Audit
+              <BarChart2 size={18} style={{ color: '#3B82F6' }} /> AI Strategic Audit
             </h3>
             <p style={{ color: '#9095A1', fontSize: 14, lineHeight: 1.6, marginBottom: 16 }}>
               Run a strategic AI audit of your profile, portfolio, and virtual sandbox trades.
@@ -260,7 +260,7 @@ export default function AssistantPage() {
           {/* Capabilities */}
           <div className="assistant-card">
             <h3 style={{ color: '#f5f5f5', fontSize: 17, fontWeight: 700, marginBottom: 22, display: 'flex', alignItems: 'center', gap: 10 }}>
-              <Sparkles size={18} style={{ color: '#FDD458' }} /> What I can do
+              <Sparkles size={18} style={{ color: '#3B82F6' }} /> What I can do
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
               {CAPABILITIES.map((cap) => (

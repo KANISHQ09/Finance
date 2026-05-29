@@ -90,7 +90,7 @@ export function SandboxDashboard() {
       {/* Open positions */}
       <div className="sandbox-table-card">
         <div style={{ padding: '16px 20px', borderBottom: '1px solid #212328', display: 'flex', alignItems: 'center', gap: 8 }}>
-          <FlaskConical size={18} style={{ color: '#FDD458' }} />
+          <FlaskConical size={18} style={{ color: '#3B82F6' }} />
           <h3 style={{ color: '#f5f5f5', fontWeight: 700, fontSize: 15, flex: 1 }}>Open Positions</h3>
           <span style={{ fontSize: 12, color: '#9095A1' }}>{sandbox.positions.length} positions</span>
         </div>
@@ -115,7 +115,7 @@ export function SandboxDashboard() {
                   const pnlPct = ((pos.currentPrice - pos.avgBuyPrice) / pos.avgBuyPrice) * 100;
                   return (
                     <tr key={pos.ticker} style={{ borderBottom: '1px solid #212328' }}>
-                      <td style={{ padding: '12px 16px', color: '#FDD458', fontWeight: 700 }}>{pos.ticker}</td>
+                      <td style={{ padding: '12px 16px', color: '#3B82F6', fontWeight: 700 }}>{pos.ticker}</td>
                       <td style={{ padding: '12px 16px', color: '#CCDADC', fontSize: 12 }}>{pos.companyName}</td>
                       <td style={{ padding: '12px 16px', color: '#f5f5f5' }}>{pos.quantity}</td>
                       <td style={{ padding: '12px 16px', color: '#CCDADC' }}>₹{pos.avgBuyPrice.toFixed(2)}</td>

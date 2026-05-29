@@ -52,7 +52,7 @@ const SignUp = () => {
       { label: '', color: '' },
       { label: 'Weak', color: '#FF495B' },
       { label: 'Fair', color: '#FF8243' },
-      { label: 'Good', color: '#FDD458' },
+      { label: 'Good', color: '#3B82F6' },
       { label: 'Strong', color: '#0FEDBE' },
     ];
     return { score: s, ...map[s] };

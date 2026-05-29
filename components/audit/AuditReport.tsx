@@ -128,7 +128,7 @@ export function AuditReport({ portfolio = [], marketData = {} }: AuditReportProp
                       <div style={{
                         position: 'absolute', left: 0, top: 0, height: 8, borderRadius: 4,
                         width: `${Math.min(s.percentage, 100)}%`,
-                        background: s.status === 'OVER' ? '#FF495B' : '#FDD458',
+                        background: s.status === 'OVER' ? '#FF495B' : '#3B82F6',
                         transition: 'width 0.6s ease',
                       }} />
                       <div style={{
@@ -196,13 +196,13 @@ export function AuditReport({ portfolio = [], marketData = {} }: AuditReportProp
                     <div key={d.day} title={`Day ${d.day}\nBase: ₹${d.base?.toLocaleString('en-IN')}`}
                       style={{ flex: 1, minWidth: 6, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', gap: 1, cursor: 'default' }}>
                       <div style={{ width: '100%', height: `${optH}%`, background: 'rgba(15,237,190,0.3)', borderRadius: '2px 2px 0 0' }} />
-                      <div style={{ width: '100%', height: `${baseH}%`, background: '#FDD458', borderRadius: '2px 2px 0 0', marginTop: -((optH - baseH) / 100 * 120) }} />
+                      <div style={{ width: '100%', height: `${baseH}%`, background: '#3B82F6', borderRadius: '2px 2px 0 0', marginTop: -((optH - baseH) / 100 * 120) }} />
                     </div>
                   );
                 })}
               </div>
               <div style={{ display: 'flex', gap: 16, marginTop: 10, justifyContent: 'center' }}>
-                {[{ color: '#0FEDBE', label: 'Optimistic' }, { color: '#FDD458', label: 'Base' }, { color: '#FF495B', label: 'Pessimistic' }].map(l => (
+                {[{ color: '#0FEDBE', label: 'Optimistic' }, { color: '#3B82F6', label: 'Base' }, { color: '#FF495B', label: 'Pessimistic' }].map(l => (
                   <span key={l.label} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, color: '#9095A1' }}>
                     <span style={{ width: 10, height: 3, borderRadius: 2, background: l.color, display: 'inline-block' }} />
                     {l.label}

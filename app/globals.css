@@ -124,8 +124,8 @@
 
   /* Vibrant Colors */
   --color-blue-600: #5862FF;
-  --color-yellow-400: #FDD458;
-  --color-yellow-500: #E8BA40;
+  --color-yellow-400: #3B82F6;
+  --color-yellow-500: #1D4ED8;
   --color-teal-400: #0FEDBE;
   --color-red-500: #FF495B;
   --color-orange-500: #FF8243;
@@ -496,7 +496,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle at 20% 50%, rgba(253,212,88,0.03) 0%, transparent 50%),
+  background-image: radial-gradient(circle at 20% 50%, rgba(59,130,246,0.03) 0%, transparent 50%),
                     radial-gradient(circle at 80% 20%, rgba(255,255,255,0.02) 0%, transparent 40%);
   pointer-events: none;
   border-radius: 16px;
@@ -535,7 +535,7 @@
 }
 .signin-logo-icon {
   width: 36px; height: 36px;
-  background: #FDD458;
+  background: #3B82F6;
   border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
 }
@@ -593,8 +593,8 @@
 }
 .auth-input::placeholder { color: #64748B; }
 .auth-input:focus {
-  border-color: #FDD458;
-  box-shadow: 0 0 0 3px rgba(253, 212, 88, 0.1);
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 .auth-input-error { border-color: #FF495B !important; }
 
@@ -649,7 +649,7 @@
 .auth-submit-btn {
   width: 100%;
   height: 48px;
-  background: linear-gradient(to bottom, #FDD458, #E8BA40);
+  background: linear-gradient(to bottom, #3B82F6, #1D4ED8);
   border: none;
   border-radius: 8px;
   color: #050505;
@@ -662,7 +662,7 @@
   gap: 8px;
   transition: opacity 0.2s, transform 0.15s;
   margin-top: 0.25rem;
-  box-shadow: 0 4px 12px rgba(253,212,88,0.25);
+  box-shadow: 0 4px 12px rgba(59,130,246,0.25);
 }
 .auth-submit-btn:hover { opacity: 0.92; transform: translateY(-1px); }
 .auth-submit-btn:active { transform: translateY(0); }
@@ -696,12 +696,12 @@
   margin-top: 1.5rem;
 }
 .auth-footer-link {
-  color: #FDD458;
+  color: #3B82F6;
   font-weight: 600;
   text-decoration: none;
   transition: color 0.2s;
 }
-.auth-footer-link:hover { color: #E8BA40; text-decoration: underline; }
+.auth-footer-link:hover { color: #1D4ED8; text-decoration: underline; }
 
 /* Divider */
 .auth-divider {
@@ -744,8 +744,8 @@
   flex-shrink: 0;
 }
 .signup-step-active .signup-step-circle {
-  background: #FDD458;
-  border-color: #FDD458;
+  background: #3B82F6;
+  border-color: #3B82F6;
   color: #050505;
 }
 .signup-step-label {
@@ -762,18 +762,18 @@
   margin: 0 4px;
   transition: background 0.3s;
 }
-.signup-step-line-done { background: #FDD458; }
+.signup-step-line-done { background: #3B82F6; }
 
 /* Verify email page */
 .verify-icon-wrap {
   width: 68px; height: 68px;
-  background: rgba(253,212,88,0.08);
-  border: 1px solid rgba(253,212,88,0.2);
+  background: rgba(59,130,246,0.08);
+  border: 1px solid rgba(59,130,246,0.2);
   border-radius: 16px;
   display: flex; align-items: center; justify-content: center;
   margin: 0 auto;
 }
-.verify-icon { color: #FDD458; }
+.verify-icon { color: #3B82F6; }
 .verify-steps {
   display: flex;
   flex-direction: column;
@@ -791,9 +791,9 @@
 .verify-step-num {
   width: 24px; height: 24px;
   border-radius: 50%;
-  background: rgba(253,212,88,0.08);
-  border: 1px solid rgba(253,212,88,0.2);
-  color: #FDD458;
+  background: rgba(59,130,246,0.08);
+  border: 1px solid rgba(59,130,246,0.2);
+  color: #3B82F6;
   font-size: 0.7rem;
   font-weight: 700;
   display: flex; align-items: center; justify-content: center;
@@ -863,12 +863,12 @@
     font-size: 1rem;
   }
 }
-.chatbot-input:focus { border-color: #FDD458; box-shadow: 0 0 0 3px rgba(253,212,88,0.12); }
+.chatbot-input:focus { border-color: #3B82F6; box-shadow: 0 0 0 3px rgba(59,130,246,0.12); }
 .chatbot-input::placeholder { color: #4A4D55; }
 .chatbot-send-btn {
   width: 48px; height: 48px;
   border-radius: 12px;
-  background: linear-gradient(to bottom, #FDD458, #E8BA40);
+  background: linear-gradient(to bottom, #3B82F6, #1D4ED8);
   border: none;
   color: #050505;
   cursor: pointer;
@@ -955,17 +955,17 @@
   gap: 5px;
   padding: 5px 12px;
   border-radius: 6px;
-  border: 1px solid rgba(253,212,88,0.3);
-  background: rgba(253,212,88,0.06);
-  color: #FDD458;
+  border: 1px solid rgba(59,130,246,0.3);
+  background: rgba(59,130,246,0.06);
+  color: #3B82F6;
   font-size: 0.75rem;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s, border-color 0.2s;
 }
 .sandbox-trade-btn:hover {
-  background: rgba(253,212,88,0.14);
-  border-color: rgba(253,212,88,0.6);
+  background: rgba(59,130,246,0.14);
+  border-color: rgba(59,130,246,0.6);
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -984,7 +984,7 @@
   align-items: center;
   gap: 8px;
   padding: 12px 28px;
-  background: linear-gradient(to bottom, #FDD458, #E8BA40);
+  background: linear-gradient(to bottom, #3B82F6, #1D4ED8);
   border: none;
   border-radius: 8px;
   color: #050505;
@@ -992,7 +992,7 @@
   font-weight: 700;
   cursor: pointer;
   transition: opacity 0.2s, transform 0.15s;
-  box-shadow: 0 4px 14px rgba(253,212,88,0.2);
+  box-shadow: 0 4px 14px rgba(59,130,246,0.2);
 }
 .audit-generate-btn:hover { opacity: 0.88; transform: translateY(-1px); }
 .audit-generate-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
@@ -1038,13 +1038,13 @@
   width: 48px;
   height: 48px;
   border-radius: 12px;
-  background: linear-gradient(135deg, rgba(253,212,88,0.18), rgba(253,212,88,0.06));
-  border: 1px solid rgba(253,212,88,0.3);
+  background: linear-gradient(135deg, rgba(59,130,246,0.18), rgba(59,130,246,0.06));
+  border: 1px solid rgba(59,130,246,0.3);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 0 28px rgba(253,212,88,0.12);
+  box-shadow: 0 0 28px rgba(59,130,246,0.12);
 }
 @media (min-width: 640px) {
   .assistant-header-icon {
@@ -1169,8 +1169,8 @@
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  background: linear-gradient(135deg, rgba(253,212,88,0.15), rgba(253,212,88,0.05));
-  border: 1px solid rgba(253,212,88,0.3);
+  background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(59,130,246,0.05));
+  border: 1px solid rgba(59,130,246,0.3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1250,8 +1250,8 @@
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  background: linear-gradient(135deg, rgba(253,212,88,0.15), rgba(253,212,88,0.05));
-  border: 1px solid rgba(253,212,88,0.3);
+  background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(59,130,246,0.05));
+  border: 1px solid rgba(59,130,246,0.3);
   display: flex;
   align-items: center;
   justify-content: center;

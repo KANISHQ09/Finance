@@ -87,9 +87,9 @@ export function StockAlertButton({ symbol, currentPrice = 0, iconOnly = false }:
             ? `watchlist-icon-btn ${hasActiveAlert ? 'watchlist-icon-added' : ''}` 
             : "flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm transition-all"}
           style={iconOnly ? undefined : {
-            background: hasActiveAlert ? 'rgba(253,212,88,0.15)' : '#212328',
-            color: hasActiveAlert ? '#FDD458' : '#CCDADC',
-            border: `1px solid ${hasActiveAlert ? 'rgba(253,212,88,0.3)' : '#30333A'}`
+            background: hasActiveAlert ? 'rgba(59,130,246,0.15)' : '#212328',
+            color: hasActiveAlert ? '#3B82F6' : '#CCDADC',
+            border: `1px solid ${hasActiveAlert ? 'rgba(59,130,246,0.3)' : '#30333A'}`
           }}
           title={hasActiveAlert ? 'Manage Alerts' : 'Set Alert'}
         >
@@ -104,7 +104,7 @@ export function StockAlertButton({ symbol, currentPrice = 0, iconOnly = false }:
           className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-[#141414] border border-[#212328] p-6 rounded-2xl shadow-xl z-50 animate-in zoom-in-95"
         >
           <Dialog.Title className="text-lg font-bold text-[#f5f5f5] mb-2 flex items-center gap-2">
-            <Bell style={{ color: '#FDD458' }} size={20} /> Price Alerts for {symbol}
+            <Bell style={{ color: '#3B82F6' }} size={20} /> Price Alerts for {symbol}
           </Dialog.Title>
           <Dialog.Description className="text-sm text-[#9095A1] mb-6">
             Get an email notification when {symbol} crosses your target price.
@@ -117,7 +117,7 @@ export function StockAlertButton({ symbol, currentPrice = 0, iconOnly = false }:
                 <select 
                   value={condition} 
                   onChange={(e) => setCondition(e.target.value as 'ABOVE' | 'BELOW')}
-                  className="w-full bg-[#0A0A0A] border border-[#30333A] text-[#f5f5f5] text-sm rounded-lg p-2.5 outline-none focus:border-[#FDD458]"
+                  className="w-full bg-[#0A0A0A] border border-[#30333A] text-[#f5f5f5] text-sm rounded-lg p-2.5 outline-none focus:border-[#3B82F6]"
                 >
                   <option value="ABOVE">Rises Above</option>
                   <option value="BELOW">Drops Below</option>
@@ -132,7 +132,7 @@ export function StockAlertButton({ symbol, currentPrice = 0, iconOnly = false }:
                   onChange={(e) => setTargetPrice(e.target.value)}
                   placeholder="0.00"
                   required
-                  className="w-full bg-[#0A0A0A] border border-[#30333A] text-[#f5f5f5] text-sm rounded-lg p-2.5 outline-none focus:border-[#FDD458]"
+                  className="w-full bg-[#0A0A0A] border border-[#30333A] text-[#f5f5f5] text-sm rounded-lg p-2.5 outline-none focus:border-[#3B82F6]"
                 />
               </div>
             </div>
@@ -140,7 +140,7 @@ export function StockAlertButton({ symbol, currentPrice = 0, iconOnly = false }:
             <button 
               type="submit" 
               disabled={loading}
-              className="w-full flex justify-center items-center gap-2 bg-[#FDD458] text-[#050505] font-bold text-sm py-2.5 rounded-lg mt-2 hover:bg-[#FCE082] transition-colors disabled:opacity-50"
+              className="w-full flex justify-center items-center gap-2 bg-[#3B82F6] text-[#050505] font-bold text-sm py-2.5 rounded-lg mt-2 hover:bg-[#FCE082] transition-colors disabled:opacity-50"
             >
               {loading ? <Loader2 size={16} className="animate-spin" /> : <><Bell size={16} /> Create Alert</>}
             </button>

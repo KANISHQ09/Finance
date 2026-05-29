@@ -12,7 +12,7 @@ export default function SandboxPage() {
       {/* Header */}
       <div className="sandbox-header">
         <div className="sandbox-header-icon">
-          <FlaskConical className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: '#FDD458' }} />
+          <FlaskConical className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: '#3B82F6' }} />
         </div>
         <div>
           <h1 className="sandbox-header-title">
@@ -26,7 +26,7 @@ export default function SandboxPage() {
 
       {/* Info banner */}
       <div className="sandbox-info-banner">
-        <Info size={15} style={{ flexShrink: 0, marginTop: 1, color: '#FDD458' }} />
+        <Info size={15} style={{ flexShrink: 0, marginTop: 1, color: '#3B82F6' }} />
         <span>
           All trades are <strong>virtual</strong> — no real money involved. Use the <strong>Test in Sandbox</strong> buttons on AI insight cards, or trade directly from stock pages.
           Prices update when you interact with a stock.

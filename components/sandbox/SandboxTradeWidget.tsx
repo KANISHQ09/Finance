@@ -83,11 +83,11 @@ export function SandboxTradeWidget({ symbol, companyName, currentPrice }: Sandbo
     <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
       <Dialog.Trigger asChild>
         <button
-          className="flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm transition-all hover:bg-[rgba(253,212,88,0.25)]"
+          className="flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm transition-all hover:bg-[rgba(59,130,246,0.25)]"
           style={{
-            background: 'rgba(253,212,88,0.15)',
-            color: '#FDD458',
-            border: '1px solid rgba(253,212,88,0.3)',
+            background: 'rgba(59,130,246,0.15)',
+            color: '#3B82F6',
+            border: '1px solid rgba(59,130,246,0.3)',
           }}
           title={`Trade ${symbol} in Sandbox`}
         >
@@ -102,7 +102,7 @@ export function SandboxTradeWidget({ symbol, companyName, currentPrice }: Sandbo
           className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-[#141414] border border-[#212328] p-6 rounded-2xl shadow-xl z-50 animate-in zoom-in-95 focus:outline-none"
         >
           <Dialog.Title className="text-lg font-bold text-[#f5f5f5] mb-1 flex items-center gap-2">
-            <FlaskConical style={{ color: '#FDD458' }} size={20} /> Trade {symbol.toUpperCase()}
+            <FlaskConical style={{ color: '#3B82F6' }} size={20} /> Trade {symbol.toUpperCase()}
           </Dialog.Title>
           <Dialog.Description className="text-xs text-[#9095A1] mb-5">
             {companyName} · Current Price: <span className="text-[#f5f5f5] font-semibold">₹{currentPrice.toFixed(2)}</span>
@@ -111,7 +111,7 @@ export function SandboxTradeWidget({ symbol, companyName, currentPrice }: Sandbo
           {/* Virtual Balance Status */}
           <div className="flex items-center justify-between bg-[#0A0A0A] border border-[#212328] px-4 py-3 rounded-xl mb-5">
             <div className="flex items-center gap-2 text-xs text-[#9095A1]">
-              <Wallet size={14} className="text-[#FDD458]" />
+              <Wallet size={14} className="text-[#3B82F6]" />
               <span>Available Virtual Balance</span>
             </div>
             <div className="text-sm font-bold text-[#f5f5f5]">
@@ -154,7 +154,7 @@ export function SandboxTradeWidget({ symbol, companyName, currentPrice }: Sandbo
             {/* Quantity Input */}
             <div>
               <label className="block text-xs font-semibold text-[#CCDADC] mb-2">Quantity (Shares)</label>
-              <div className="flex items-center bg-[#0A0A0A] border border-[#30333A] rounded-xl overflow-hidden focus-within:border-[#FDD458]">
+              <div className="flex items-center bg-[#0A0A0A] border border-[#30333A] rounded-xl overflow-hidden focus-within:border-[#3B82F6]">
                 <button
                   type="button"
                   onClick={() => setQuantity(q => Math.max(1, q - 1))}
@@ -194,7 +194,7 @@ export function SandboxTradeWidget({ symbol, companyName, currentPrice }: Sandbo
             <button
               type="submit"
               disabled={loading || quantity <= 0}
-              className="w-full flex justify-center items-center gap-2 bg-[#FDD458] text-[#050505] font-bold text-sm py-3 rounded-xl mt-3 hover:bg-[#FCE082] transition-colors disabled:opacity-50"
+              className="w-full flex justify-center items-center gap-2 bg-[#3B82F6] text-[#050505] font-bold text-sm py-3 rounded-xl mt-3 hover:bg-[#FCE082] transition-colors disabled:opacity-50"
             >
               {loading ? (
                 <Loader2 size={16} className="animate-spin" />
