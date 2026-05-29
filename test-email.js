@@ -20,7 +20,7 @@ async function run() {
         console.log("Server is ready to take our messages");
         
         await transporter.sendMail({
-            from: `"Signalist" <signalist@jsmastery.pro>`,
+            from: `"FinNext" <${process.env.NODEMAILER_EMAIL}>`,
             to: process.env.NODEMAILER_EMAIL, // Send to self
             subject: "Test Alert",
             text: "This is a test from FinNext"

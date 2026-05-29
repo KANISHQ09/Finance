@@ -15,11 +15,18 @@ export const sendWelcomeEmail = async ({ email, name, intro }: WelcomeEmailData)
         .replace('{{intro}}', intro);
 
     const mailOptions = {
-        from: `"Signalist" <signalist@jsmastery.pro>`,
+        from: `"FinNext" <${process.env.NODEMAILER_EMAIL}>`,
         to: email,
-        subject: `Welcome to Signalist - your stock market toolkit is ready!`,
-        text: 'Thanks for joining Signalist',
+        subject: `Welcome to FinNext - your stock market toolkit is ready!`,
+        text: 'Thanks for joining FinNext',
         html: htmlTemplate,
+        attachments: [
+            {
+                filename: 'dashboard.png',
+                path: 'd:/kantik/finnext/public/assets/images/dashboard.png',
+                cid: 'dashboard',
+            },
+        ],
     }
 
     await transporter.sendMail(mailOptions);
@@ -33,10 +40,10 @@ export const sendNewsSummaryEmail = async (
         .replace('{{newsContent}}', newsContent);
 
     const mailOptions = {
-        from: `"Signalist News" <signalist@jsmastery.pro>`,
+        from: `"FinNext News" <${process.env.NODEMAILER_EMAIL}>`,
         to: email,
         subject: `📈 Market News Summary Today - ${date}`,
-        text: `Today's market news summary from Signalist`,
+        text: `Today's market news summary from FinNext`,
         html: htmlTemplate,
     };
 
@@ -70,7 +77,7 @@ export const sendStockAlertEmail = async ({
         .replace(/{{timestamp}}/g, timestamp);
 
     const mailOptions = {
-        from: `"FinNext Alerts" <signalist@jsmastery.pro>`,
+        from: `"FinNext Alerts" <${process.env.NODEMAILER_EMAIL}>`,
         to: email,
         subject: `🔔 Alert Triggered: ${symbol} is ${condition.toLowerCase()} $${targetPrice.toFixed(2)}`,
         text: `Your price alert for ${symbol} has been triggered. Current price: $${currentPrice.toFixed(2)}`,
