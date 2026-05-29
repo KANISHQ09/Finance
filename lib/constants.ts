@@ -58,7 +58,7 @@ export const MARKET_OVERVIEW_WIDGET_CONFIG = {
     symbolActiveColor: "rgba(15, 237, 190, 0.05)", // highlight color for active symbol
     tabs: [
         {
-            title: "Financial",
+            title: "Financials",
             symbols: [
                 { s: "NYSE:JPM", d: "JPMorgan Chase" },
                 { s: "NYSE:WFC", d: "Wells Fargo Co New" },
@@ -139,7 +139,7 @@ export const MARKET_DATA_WIDGET_CONFIG = {
     backgroundColor: "#0F0F0F",
     symbolsGroups: [
         {
-            name: "Financial",
+            name: "Financials",
             symbols: [
                 { name: "NYSE:JPM", displayName: "JPMorgan Chase" },
                 { name: "NYSE:WFC", displayName: "Wells Fargo Co New" },
