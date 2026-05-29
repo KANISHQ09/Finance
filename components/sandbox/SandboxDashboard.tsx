@@ -68,21 +68,19 @@ export function SandboxDashboard() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
       {/* Stats row */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 14 }}>
+      <div className="sandbox-stats-grid">
         {stats.map((s) => (
           <div key={s.label} className="sandbox-stat-card">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+            <div className="sandbox-stat-body">
               <div>
                 <p className="sandbox-stat-label">{s.label}</p>
                 <p className="sandbox-stat-value" style={{ color: s.color }}>{s.value}</p>
               </div>
-              <div style={{
-                width: 36, height: 36, borderRadius: 8,
+              <div className="sandbox-stat-icon-box" style={{
                 background: `${s.color}15`,
                 border: `1px solid ${s.color}25`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}>
-                <s.icon size={16} style={{ color: s.color }} />
+                <s.icon className="w-4 h-4 sm:w-[18px] sm:h-[18px]" style={{ color: s.color }} />
               </div>
             </div>
           </div>
@@ -103,7 +101,7 @@ export function SandboxDashboard() {
               No open positions. Use "Test in Sandbox" buttons from AI insights.
             </div>
           ) : (
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+            <table style={{ width: '100%', minWidth: 550, borderCollapse: 'collapse', fontSize: 13 }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid #212328' }}>
                   {['Ticker', 'Company', 'Qty', 'Avg Price', 'Current', 'P&L'].map((h) => (

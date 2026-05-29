@@ -54,19 +54,14 @@ export default function ProfilePage() {
   }
 
   return (
-    <main style={{ padding: '2rem', maxWidth: 900, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 32 }}>
+    <main className="profile-container">
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16 }}>
-        <div style={{
-          width: 52, height: 52, borderRadius: 14,
-          background: 'linear-gradient(135deg, rgba(253,212,88,0.15), rgba(253,212,88,0.05))',
-          border: '1px solid rgba(253,212,88,0.3)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-        }}>
-          <User size={24} style={{ color: '#FDD458' }} />
+        <div className="profile-header-icon">
+          <User className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: '#FDD458' }} />
         </div>
         <div>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#f5f5f5', marginBottom: 4 }}>
+          <h1 className="profile-header-title">
             Investor Profile
           </h1>
           <p style={{ color: '#9095A1', fontSize: 14 }}>
@@ -75,9 +70,9 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 32 }}>
+      <div className="profile-grid">
         {/* Profile Settings */}
-        <div style={{ background: '#141414', border: '1px solid #212328', borderRadius: 16, padding: '24px' }}>
+        <div className="profile-card">
           <h2 style={{ color: '#f5f5f5', fontSize: 18, fontWeight: 700, marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
             <Target size={18} style={{ color: '#FDD458' }} /> Preferences
           </h2>
@@ -132,9 +127,8 @@ export default function ProfilePage() {
         </div>
 
         {/* Portfolio Import */}
-        <div style={{ background: '#141414', border: '1px solid #212328', borderRadius: 16, padding: '24px' }}>
-          <UniversalImport />
-        </div>
+        {/* Portfolio Import */}
+        <UniversalImport />
       </div>
     </main>
   );

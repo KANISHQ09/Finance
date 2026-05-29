@@ -170,7 +170,7 @@ export function UniversalImport({ onAssetsChange }: UniversalImportProps) {
       {/* Asset table */}
       {assets.length > 0 && (
         <div style={{ overflowX: 'auto', marginBottom: 16 }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+          <table style={{ width: '100%', minWidth: 500, borderCollapse: 'collapse', fontSize: 13 }}>
             <thead>
               <tr style={{ borderBottom: '1px solid #212328' }}>
                 {['Symbol', 'Type', 'Qty', 'Avg Price', 'Broker', ''].map((h) => (

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Bot, Sparkles, X, ChevronUp } from 'lucide-react';
+import { Send, Bot, Sparkles, X, ChevronUp, TrendingUp, HelpCircle, FlaskConical, BarChart2 } from 'lucide-react';
 import type { DashboardAction, ChatResponse } from '@/types/chatActions';
 import { SandboxTradeButton } from './sandbox/SandboxTradeButton';
 import Link from 'next/link';
@@ -19,23 +19,36 @@ interface ChatbotProps {
 }
 
 const SUGGESTIONS = [
-  'Show me tech stocks',
-  'Based on my risk profile, what should I buy?',
-  'What is my sandbox balance?',
-  'Recommend a stock for my sandbox',
+  { icon: TrendingUp, label: 'Recommend stocks for me' },
+  { icon: HelpCircle, label: 'Based on my risk profile, what should I buy?' },
+  { icon: FlaskConical, label: 'What is my sandbox balance?' },
+  { icon: BarChart2, label: 'Analyze my portfolio risk' },
 ];
+
+/** Render line breaks in message text */
+function MessageText({ text }: { text: string }) {
+  const lines = text.split('\n').filter(Boolean);
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+      {lines.map((line, i) => (
+        <p key={i} style={{ margin: 0, lineHeight: 1.65 }}>{line}</p>
+      ))}
+    </div>
+  );
+}
 
 export function Chatbot({ portfolioTickers = [], onDashboardAction, fullPage = false }: ChatbotProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: '👋 Hi! I\'m your AI assistant powered by NVIDIA Nemotron. I have full context of your portfolio, profile, and sandbox. How can I help you today?',
+      content: '👋 Hi! I\'m your personal AI financial assistant. I have full context of your portfolio, risk profile, and sandbox. How can I help you today?',
     },
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [minimized, setMinimized] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -55,9 +68,22 @@ export function Chatbot({ portfolioTickers = [], onDashboardAction, fullPage = f
         body: JSON.stringify({ message: userMsg }),
       });
       const data: ChatResponse = await res.json();
+
+      // Sanitise the message — strip any residual JSON leakage
+      let cleanMessage = data.message ?? '⚠️ I could not generate a response. Please try again.';
+      // If the response looks like raw JSON, strip it
+      if (cleanMessage.trim().startsWith('{') || cleanMessage.trim().startsWith('[')) {
+        try {
+          const parsed = JSON.parse(cleanMessage);
+          cleanMessage = parsed.message ?? cleanMessage;
+        } catch {
+          cleanMessage = 'Something went wrong parsing the response. Please try again.';
+        }
+      }
+
       setMessages((prev) => [
         ...prev,
-        { role: 'assistant', content: data.message, action: data.dashboardAction },
+        { role: 'assistant', content: cleanMessage, action: data.dashboardAction },
       ]);
       if (data.dashboardAction && data.dashboardAction.action !== 'NONE' && data.dashboardAction.action !== 'SANDBOX_TRADE') {
         onDashboardAction?.(data.dashboardAction);
@@ -68,37 +94,46 @@ export function Chatbot({ portfolioTickers = [], onDashboardAction, fullPage = f
     setIsLoading(false);
   };
 
-  const actionLabel = (action: DashboardAction) => action.action.replace(/_/g, ' ');
-
   return (
-    <div className="chatbot-container" style={{ 
-      minHeight: minimized ? 'auto' : (fullPage ? 600 : 480),
-      height: fullPage ? '100%' : 'auto',
-      display: 'flex', flexDirection: 'column'
-    }}>
+    <div
+      className="chatbot-container"
+      style={{
+        minHeight: minimized ? 'auto' : (fullPage ? 720 : 580),
+        height: fullPage ? '100%' : 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
       {/* Header */}
       <div className="chatbot-header">
         <div style={{
-          width: 30, height: 30, borderRadius: 7,
-          background: '#FDD458',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          flexShrink: 0,
+          width: 40, height: 40, borderRadius: 10,
+          background: 'linear-gradient(135deg, #FDD458, #f5a623)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+          boxShadow: '0 0 16px rgba(253,212,88,0.4)',
         }}>
-          <Bot size={15} style={{ color: '#050505' }} />
+          <Bot size={20} style={{ color: '#050505' }} />
         </div>
         <div style={{ flex: 1 }}>
-          <div style={{ color: '#CCDADC', fontWeight: 700, fontSize: 13 }}>AI Assistant</div>
-          <div style={{ color: '#9095A1', fontSize: 11, display: 'flex', alignItems: 'center', gap: 4 }}>
-            <Sparkles size={9} style={{ color: '#FDD458' }} />
-            NVIDIA Nemotron · RAG Context Aware
+          <div style={{ color: '#f5f5f5', fontWeight: 700, fontSize: 15 }}>FinNext Assistant</div>
+          <div style={{ color: '#9095A1', fontSize: 13, display: 'flex', alignItems: 'center', gap: 5 }}>
+            <span style={{
+              width: 6, height: 6, borderRadius: '50%',
+              background: '#0FEDBE',
+              display: 'inline-block',
+              boxShadow: '0 0 6px #0FEDBE',
+            }} />
+            Online · Personalised to your profile
           </div>
         </div>
         {!fullPage && (
           <button
             onClick={() => setMinimized((v) => !v)}
-            style={{ background: 'none', border: 'none', color: '#9095A1', cursor: 'pointer', padding: 4 }}
+            style={{ background: 'none', border: 'none', color: '#9095A1', cursor: 'pointer', padding: 4, borderRadius: 6, transition: 'color 0.15s' }}
+            onMouseEnter={e => (e.currentTarget.style.color = '#f5f5f5')}
+            onMouseLeave={e => (e.currentTarget.style.color = '#9095A1')}
           >
-            {minimized ? <ChevronUp size={15} /> : <X size={15} />}
+            {minimized ? <ChevronUp size={16} /> : <X size={16} />}
           </button>
         )}
       </div>
@@ -108,51 +143,82 @@ export function Chatbot({ portfolioTickers = [], onDashboardAction, fullPage = f
           {/* Messages */}
           <div className="chatbot-messages" style={{ flex: 1 }}>
             {messages.map((msg, i) => (
-              <div key={i} style={{ display: 'flex', justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start' }}>
+              <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: msg.role === 'user' ? 'flex-end' : 'flex-start', gap: 6 }}>
+                {/* Avatar row for assistant */}
+                {msg.role === 'assistant' && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <div style={{
+                      width: 26, height: 26, borderRadius: 7,
+                      background: 'linear-gradient(135deg, #FDD458, #f5a623)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                    }}>
+                      <Bot size={14} style={{ color: '#050505' }} />
+                    </div>
+                    <span style={{ color: '#9095A1', fontSize: 12, fontWeight: 600 }}>FinNext AI</span>
+                  </div>
+                )}
+
                 <div style={{
-                  maxWidth: '82%',
-                  borderRadius: msg.role === 'user' ? '14px 14px 4px 14px' : '4px 14px 14px 14px',
-                  padding: '9px 13px',
-                  fontSize: 13,
-                  lineHeight: 1.55,
-                  background: msg.role === 'user' ? '#FDD458' : '#212328',
+                  maxWidth: '86%',
+                  borderRadius: msg.role === 'user' ? '18px 18px 4px 18px' : '4px 18px 18px 18px',
+                  padding: '13px 18px',
+                  fontSize: 15,
+                  background: msg.role === 'user'
+                    ? 'linear-gradient(135deg, #FDD458, #f5a623)'
+                    : '#1A1D22',
                   color: msg.role === 'user' ? '#050505' : '#CCDADC',
-                  border: msg.role === 'assistant' ? '1px solid #30333A' : 'none',
+                  border: msg.role === 'assistant' ? '1px solid #2A2D35' : 'none',
                   fontWeight: msg.role === 'user' ? 600 : 400,
+                  lineHeight: 1.7,
+                  boxShadow: msg.role === 'user'
+                    ? '0 2px 12px rgba(253,212,88,0.2)'
+                    : '0 2px 8px rgba(0,0,0,0.3)',
                 }}>
-                  {msg.content}
+                  <MessageText text={msg.content} />
+
+                  {/* Action pills */}
                   {msg.action && msg.action.action !== 'NONE' && (
-                    <div style={{ marginTop: 10 }}>
+                    <div style={{ marginTop: 12 }}>
                       {msg.action.action === 'SANDBOX_TRADE' ? (
-                        <SandboxTradeButton 
-                          ticker={msg.action.payload.ticker} 
-                          currentPrice={0}
+                        <SandboxTradeButton
+                          ticker={msg.action.payload.ticker}
                           suggestedAction={msg.action.payload.action}
                           suggestedQuantity={msg.action.payload.quantity}
+                          companyName={msg.action.payload.ticker}
                         />
                       ) : msg.action.action === 'RECOMMEND_STOCKS' ? (
-                        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                          {msg.action.payload.map((ticker) => (
-                            <Link
-                              key={ticker}
-                              href={`/stocks/${ticker}`}
-                              style={{
-                                padding: '4px 10px', borderRadius: 6, background: '#212328',
-                                border: '1px solid rgba(253,212,88,0.5)', color: '#FDD458',
-                                fontSize: 11, fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4
-                              }}
-                            >
-                              📈 {ticker}
-                            </Link>
-                          ))}
+                        <div>
+                          <p style={{ fontSize: 12, color: '#9095A1', marginBottom: 8, fontWeight: 700, letterSpacing: '0.04em' }}>RECOMMENDED STOCKS</p>
+                          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                            {msg.action.payload.map((ticker: string) => (
+                              <Link
+                                key={ticker}
+                                href={`/stocks/${ticker}`}
+                                style={{
+                                  padding: '7px 14px', borderRadius: 10,
+                                  background: 'rgba(253,212,88,0.1)',
+                                  border: '1px solid rgba(253,212,88,0.4)',
+                                  color: '#FDD458',
+                                  fontSize: 14, fontWeight: 700,
+                                  textDecoration: 'none',
+                                  display: 'flex', alignItems: 'center', gap: 6,
+                                  transition: 'background 0.15s',
+                                }}
+                              >
+                                <TrendingUp size={13} /> {ticker}
+                              </Link>
+                            ))}
+                          </div>
                         </div>
                       ) : (
                         <div style={{
-                          padding: '3px 8px', borderRadius: 5, background: 'rgba(253,212,88,0.1)',
-                          border: '1px solid rgba(253,212,88,0.25)', color: '#FDD458',
-                          fontSize: 10, fontWeight: 700, display: 'inline-block'
+                          padding: '5px 12px', borderRadius: 8,
+                          background: 'rgba(15,237,190,0.1)',
+                          border: '1px solid rgba(15,237,190,0.25)',
+                          color: '#0FEDBE',
+                          fontSize: 12, fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 5,
                         }}>
-                          ⚡ {actionLabel(msg.action)}
+                          <Sparkles size={10} /> {msg.action.action.replace(/_/g, ' ')}
                         </div>
                       )}
                     </div>
@@ -160,14 +226,32 @@ export function Chatbot({ portfolioTickers = [], onDashboardAction, fullPage = f
                 </div>
               </div>
             ))}
+
+            {/* Typing indicator */}
             {isLoading && (
-              <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 6 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <div style={{
+                    width: 26, height: 26, borderRadius: 7,
+                    background: 'linear-gradient(135deg, #FDD458, #f5a623)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    <Bot size={14} style={{ color: '#050505' }} />
+                  </div>
+                  <span style={{ color: '#9095A1', fontSize: 12, fontWeight: 600 }}>FinNext AI</span>
+                </div>
                 <div style={{
-                  padding: '10px 16px', borderRadius: 14, fontSize: 13,
-                  background: 'rgba(30, 41, 59, 0.8)', color: '#64748b',
-                  border: '1px solid rgba(99,102,241,0.15)',
+                  padding: '14px 20px', borderRadius: '4px 18px 18px 18px',
+                  background: '#1A1D22', border: '1px solid #2A2D35',
+                  display: 'flex', gap: 6, alignItems: 'center',
                 }}>
-                  <span style={{ animation: 'pulse 1.5s ease-in-out infinite' }}>Thinking…</span>
+                  {[0, 1, 2].map(d => (
+                    <span key={d} style={{
+                      width: 9, height: 9, borderRadius: '50%', background: '#FDD458',
+                      display: 'inline-block',
+                      animation: `bounce 1.2s ease-in-out ${d * 0.18}s infinite`,
+                    }} />
+                  ))}
                 </div>
               </div>
             )}
@@ -175,31 +259,43 @@ export function Chatbot({ portfolioTickers = [], onDashboardAction, fullPage = f
           </div>
 
           {/* Quick suggestions */}
-          <div style={{ padding: '6px 12px 8px', display: 'flex', gap: 5, flexWrap: 'wrap', borderTop: '1px solid #212328' }}>
+          <div style={{ padding: '10px 18px 12px', display: 'flex', gap: 8, flexWrap: 'wrap', borderTop: '1px solid #212328' }}>
             {SUGGESTIONS.map((s) => (
               <button
-                key={s}
-                onClick={() => sendMessage(s)}
+                key={s.label}
+                onClick={() => sendMessage(s.label)}
                 style={{
-                  padding: '3px 9px', borderRadius: 4, fontSize: 11, cursor: 'pointer',
-                  background: '#212328', border: '1px solid #30333A',
+                  display: 'flex', alignItems: 'flex-start', gap: 6,
+                  padding: '6px 13px', borderRadius: 8, fontSize: 13, cursor: 'pointer',
+                  background: '#1A1D22', border: '1px solid #2A2D35',
                   color: '#9095A1', fontWeight: 500, transition: 'all 0.15s',
+                  textAlign: 'left',
                 }}
-                onMouseEnter={e => { (e.target as HTMLElement).style.borderColor = '#FDD458'; (e.target as HTMLElement).style.color = '#FDD458'; }}
-                onMouseLeave={e => { (e.target as HTMLElement).style.borderColor = '#30333A'; (e.target as HTMLElement).style.color = '#9095A1'; }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.borderColor = '#FDD458';
+                  e.currentTarget.style.color = '#FDD458';
+                  e.currentTarget.style.background = 'rgba(253,212,88,0.07)';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.borderColor = '#2A2D35';
+                  e.currentTarget.style.color = '#9095A1';
+                  e.currentTarget.style.background = '#1A1D22';
+                }}
               >
-                {s}
+                <s.icon size={12} style={{ marginTop: 3, flexShrink: 0 }} />
+                {s.label}
               </button>
             ))}
           </div>
 
-          {/* Input */}
+          {/* Input row */}
           <div className="chatbot-input-row">
             <input
+              ref={inputRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-              placeholder="Ask anything about your finances..."
+              placeholder="Ask me anything about your finances..."
               className="chatbot-input"
             />
             <button
@@ -207,7 +303,7 @@ export function Chatbot({ portfolioTickers = [], onDashboardAction, fullPage = f
               disabled={isLoading || !input.trim()}
               className="chatbot-send-btn"
             >
-              <Send size={16} />
+              <Send size={19} />
             </button>
           </div>
         </>

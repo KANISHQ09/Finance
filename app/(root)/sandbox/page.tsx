@@ -8,19 +8,14 @@ export const metadata = {
 
 export default function SandboxPage() {
   return (
-    <main style={{ padding: '2rem', maxWidth: 1100, margin: '0 auto' }}>
+    <main className="sandbox-container">
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, marginBottom: 28 }}>
-        <div style={{
-          width: 52, height: 52, borderRadius: 14,
-          background: 'linear-gradient(135deg, rgba(253,212,88,0.15), rgba(253,212,88,0.05))',
-          border: '1px solid rgba(253,212,88,0.3)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-        }}>
-          <FlaskConical size={24} style={{ color: '#FDD458' }} />
+      <div className="sandbox-header">
+        <div className="sandbox-header-icon">
+          <FlaskConical className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: '#FDD458' }} />
         </div>
         <div>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#f5f5f5', marginBottom: 4 }}>
+          <h1 className="sandbox-header-title">
             Paper Trading Sandbox
           </h1>
           <p style={{ color: '#9095A1', fontSize: 14 }}>
@@ -30,12 +25,7 @@ export default function SandboxPage() {
       </div>
 
       {/* Info banner */}
-      <div style={{
-        display: 'flex', alignItems: 'flex-start', gap: 10,
-        padding: '14px 18px', marginBottom: 24,
-        background: '#141414', border: '1px solid #212328',
-        borderRadius: 12, fontSize: 13, color: '#CCDADC',
-      }}>
+      <div className="sandbox-info-banner">
         <Info size={15} style={{ flexShrink: 0, marginTop: 1, color: '#FDD458' }} />
         <span>
           All trades are <strong>virtual</strong> — no real money involved. Use the <strong>Test in Sandbox</strong> buttons on AI insight cards, or trade directly from stock pages.
