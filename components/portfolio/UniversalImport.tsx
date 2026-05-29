@@ -134,7 +134,7 @@ export function UniversalImport({ onAssetsChange }: UniversalImportProps) {
   return (
     <div className="import-card">
       <div className="import-card-header">
-        <Upload size={20} style={{ color: '#3B82F6' }} />
+        <Upload size={20} style={{ color: '#FDD458' }} />
         <h3 className="import-card-title">Universal Portfolio Import</h3>
       </div>
 
@@ -156,8 +156,8 @@ export function UniversalImport({ onAssetsChange }: UniversalImportProps) {
           disabled={isUploading}
           style={{
             height: 38, padding: '0 16px', borderRadius: 8,
-            background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.25)',
-            color: '#3B82F6', fontSize: 13, fontWeight: 600, cursor: 'pointer',
+            background: 'rgba(253,212,88,0.1)', border: '1px solid rgba(253,212,88,0.25)',
+            color: '#FDD458', fontSize: 13, fontWeight: 600, cursor: 'pointer',
             display: 'flex', alignItems: 'center', gap: 6,
           }}
         >
@@ -251,9 +251,9 @@ export function UniversalImport({ onAssetsChange }: UniversalImportProps) {
             disabled={isSaving}
             style={{
               height: 36, padding: '0 16px', borderRadius: 8,
-              background: saved ? 'rgba(15,237,190,0.1)' : 'rgba(59,130,246,0.1)',
-              border: saved ? '1px solid rgba(15,237,190,0.3)' : '1px solid rgba(59,130,246,0.3)',
-              color: saved ? '#0FEDBE' : '#3B82F6', fontSize: 12, fontWeight: 600, cursor: 'pointer',
+              background: saved ? 'rgba(15,237,190,0.1)' : 'rgba(253,212,88,0.1)',
+              border: saved ? '1px solid rgba(15,237,190,0.3)' : '1px solid rgba(253,212,88,0.3)',
+              color: saved ? '#0FEDBE' : '#FDD458', fontSize: 12, fontWeight: 600, cursor: 'pointer',
               display: 'flex', alignItems: 'center', gap: 5,
             }}
           >
