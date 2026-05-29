@@ -222,19 +222,16 @@ export const getStocksDetails = cache(async (symbol: string) => {
   try {
     const [quote, profile, financials] = await Promise.all([
       fetchJSON(
-        // Price data - no caching for accuracy
         `${FINNHUB_BASE_URL}/quote?symbol=${cleanSymbol}&token=${NEXT_PUBLIC_FINNHUB_API_KEY}`
-      ),
+      ).catch(() => null),
       fetchJSON(
-        // Company info - cache 1hr (rarely changes)
         `${FINNHUB_BASE_URL}/stock/profile2?symbol=${cleanSymbol}&token=${NEXT_PUBLIC_FINNHUB_API_KEY}`,
         3600
-      ),
+      ).catch(() => null),
       fetchJSON(
-        // Financial metrics (P/E, etc.) - cache 30min
         `${FINNHUB_BASE_URL}/stock/metric?symbol=${cleanSymbol}&metric=all&token=${NEXT_PUBLIC_FINNHUB_API_KEY}`,
         1800
-      ),
+      ).catch(() => null),
     ]);
 
     // Type cast the responses
@@ -243,8 +240,19 @@ export const getStocksDetails = cache(async (symbol: string) => {
     const financialsData = financials as FinancialsData;
 
     // Check if we got valid quote and profile data
-    if (!quoteData?.c || !profileData?.name)
-      throw new Error('Invalid stock data received from API');
+    if (!quoteData?.c || !profileData?.name) {
+      console.warn(`Invalid or restricted data for ${cleanSymbol}. Using fallback.`);
+      return {
+        symbol: cleanSymbol,
+        company: cleanSymbol,
+        currentPrice: 0,
+        changePercent: 0,
+        priceFormatted: '—',
+        changeFormatted: '—',
+        peRatio: '—',
+        marketCapFormatted: '—',
+      };
+    }
 
     const changePercent = quoteData.dp || 0;
     const peRatio = financialsData?.metric?.peNormalizedAnnual || null;
@@ -263,7 +271,17 @@ export const getStocksDetails = cache(async (symbol: string) => {
     };
   } catch (error) {
     console.error(`Error fetching details for ${cleanSymbol}:`, error);
-    throw new Error('Failed to fetch stock details');
+    // Return fallback instead of crashing
+    return {
+      symbol: cleanSymbol,
+      company: cleanSymbol,
+      currentPrice: 0,
+      changePercent: 0,
+      priceFormatted: '—',
+      changeFormatted: '—',
+      peRatio: '—',
+      marketCapFormatted: '—',
+    };
   }
 });
 

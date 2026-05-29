@@ -1,60 +1,28 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { runAgent } from "@/lib/agents/runAgent";
 
-// IMPORTANT: Replace with your actual Lyzr Agent ID and fetch the API Key securely (e.g., from process.env)
-const PORTFOLIO_AGENT_ID = "692726db642e89081dd9da52";
-const PORTFOLIO_API_KEY = process.env.PORTFOLIO_AGENT_API_KEY || "YOUR_PORTFOLIO_AGENT_API_KEY_HERE"; 
-
-// Constants based on your new curl information
-const NEW_AGENT_URL = 'https://agent-prod.studio.lyzr.ai/v3/inference/chat/';
-const USER_ID_PLACEHOLDER = 'finnext-user'; // Simple placeholder or derive from session/auth
-const SESSION_ID = 'finnext-session-1'; // Used by Lyzr to maintain conversation history
-
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    // We only need 'input' from the frontend for the API's 'message' field
-    const { input } = body; 
+    const { portfolio, input } = body;
 
-    if (!input) {
-      return NextResponse.json({ error: "Missing 'input' in request body" }, { status: 400 });
-    }
+    const userMessage = portfolio
+      ? `Analyze this portfolio: ${JSON.stringify(portfolio)}`
+      : input ?? "Provide a general portfolio analysis.";
 
-    // 1. Proxy request to the V3 Lyzr Agent API endpoint
-    const res = await fetch(NEW_AGENT_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        // 2. Use the x-api-key header for authentication
-        "x-api-key": PORTFOLIO_API_KEY, 
-      },
-      body: JSON.stringify({
-        user_id: USER_ID_PLACEHOLDER,
-        agent_id: PORTFOLIO_AGENT_ID,
-        // 3. Use agent ID to ensure session is unique per agent
-        session_id: `${PORTFOLIO_AGENT_ID}-${SESSION_ID}`, 
-        message: input, // Map frontend 'input' to API 'message'
-      }),
+    const result = await runAgent({
+      systemPrompt: `You are an elite portfolio analysis AI for FinNext. Analyze the user's stock portfolio and provide:
+1. Diversification score (0-100)
+2. Sector allocation breakdown (%)
+3. Top 3 concentration risks
+4. Rebalancing recommendations
+Output as structured JSON: { score, sectors, risks, recommendations }`,
+      userMessage,
     });
 
-    if (!res.ok) {
-        const errorText = await res.text();
-        console.error(`Lyzr API Error (${res.status}): ${errorText}`);
-        return NextResponse.json({ error: `Lyzr Agent failed: ${errorText}` }, { status: res.status });
-    }
-
-    const data = await res.json();
-    
-    // The V3 API response structure is nested. We extract the relevant parts.
-    const agentReply = data.response?.content || data.response || 'No reply content found.';
-    const sources = data.response?.sources || [];
-
-    // 4. Return the response to the frontend
-    return NextResponse.json({
-      reply: agentReply,
-      sources: sources,
-    });
+    return NextResponse.json({ reply: result, result });
   } catch (error) {
-    console.error("API Route Error:", error);
+    console.error("Portfolio agent error:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

@@ -1,7 +1,7 @@
 'use server';
 
 import {auth} from "@/lib/better-auth/auth";
-import {inngest} from "@/lib/inngest/client";
+import {sendSignUpEmailTask} from "@/lib/cron/tasks";
 import {headers} from "next/headers";
 
 export const signUpWithEmail = async ({ email, password, fullName, country, investmentGoals, riskTolerance, preferredIndustry }: SignUpFormData) => {
@@ -9,10 +9,8 @@ export const signUpWithEmail = async ({ email, password, fullName, country, inve
         const response = await auth.api.signUpEmail({ body: { email, password, name: fullName } })
 
         if(response) {
-            await inngest.send({
-                name: 'app/user.created',
-                data: { email, name: fullName, country, investmentGoals, riskTolerance, preferredIndustry }
-            })
+            // Non-blocking fire-and-forget for the welcome email
+            sendSignUpEmailTask({ email, name: fullName, country, investmentGoals, riskTolerance, preferredIndustry }).catch(console.error);
         }
 
         return { success: true, data: response }

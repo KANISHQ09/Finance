@@ -1,5 +1,6 @@
 import TradingViewWidget from '@/components/TradingViewWidget';
 import WatchlistButton from '@/components/WatchlistButton';
+import { StockAlertButton } from '@/components/StockAlertButton';
 import { WatchlistItem } from '@/database/models/watchlist.model';
 import { getStocksDetails } from '@/lib/actions/finnhub.actions';
 import { getUserWatchlist } from '@/lib/actions/watchlist.actions';
@@ -55,12 +56,18 @@ export default async function StockDetails({ params }: StockDetailsPageProps) {
         {/* Right column */}
         <div className='flex flex-col gap-6'>
           <div className='flex items-center justify-between'>
-            <WatchlistButton
-              symbol={symbol}
-              company={stockData.company}
-              isInWatchlist={isInWatchlist}
-              type='button'
-            />
+            <div className='flex items-center gap-3'>
+              <WatchlistButton
+                symbol={symbol}
+                company={stockData.company}
+                isInWatchlist={isInWatchlist}
+                type='button'
+              />
+              <StockAlertButton 
+                symbol={symbol.toUpperCase()} 
+                currentPrice={stockData.currentPrice} 
+              />
+            </div>
           </div>
 
           <TradingViewWidget

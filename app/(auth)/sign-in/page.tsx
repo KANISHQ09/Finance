@@ -1,71 +1,113 @@
 'use client';
 
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Button } from '@/components/ui/button';
-import InputField from '@/components/forms/InputField';
-import FooterLink from '@/components/forms/FooterLink';
-import {signInWithEmail, signUpWithEmail} from "@/lib/actions/auth.actions";
-import {toast} from "sonner";
-import {signInEmail} from "better-auth/api";
-import {useRouter} from "next/navigation";
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import Image from 'next/image';
+import { toast } from 'sonner';
+import { Eye, EyeOff, Lock, Mail, ArrowRight, Loader2 } from 'lucide-react';
+import { signInWithEmail } from '@/lib/actions/auth.actions';
 
 const SignIn = () => {
-    const router = useRouter()
-    const {
-        register,
-        handleSubmit,
-        formState: { errors, isSubmitting },
-    } = useForm<SignInFormData>({
-        defaultValues: {
-            email: '',
-            password: '',
-        },
-        mode: 'onBlur',
-    });
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
 
-    const onSubmit = async (data: SignInFormData) => {
-        try {
-            const result = await signInWithEmail(data);
-            if(result.success) router.push('/');
-        } catch (e) {
-            console.error(e);
-            toast.error('Sign in failed', {
-                description: e instanceof Error ? e.message : 'Failed to sign in.'
-            })
-        }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<SignInFormData>({
+    defaultValues: { email: '', password: '' },
+    mode: 'onBlur',
+  });
+
+  const onSubmit = async (data: SignInFormData) => {
+    try {
+      const result = await signInWithEmail(data);
+      if (result.success) {
+        toast.success('Welcome back!');
+        router.push('/');
+      } else {
+        toast.error(result.error ?? 'Invalid credentials.');
+      }
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Something went wrong.');
     }
+  };
 
-    return (
-        <>
-            <h1 className="form-title">Welcome back</h1>
+  return (
+    <div className="signin-container">
+      <div className="signin-card">
+        {/* Logo */}
+        <div className="signin-logo">
+          <Image src="/assets/icons/logo.png" alt="FinNext" width={120} height={28} className="h-7 w-auto" />
+        </div>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-                <InputField
-                    name="email"
-                    label="Email"
-                    placeholder="contact@finnext.com"
-                    register={register}
-                    error={errors.email}
-                    validation={{ required: 'Email is required', pattern: /^\w+@\w+\.\w+$/ }}
-                />
+        {/* Heading */}
+        <div className="signin-header">
+          <h1 className="signin-title">Welcome back</h1>
+          <p className="signin-subtitle">Sign in to your AI-powered portfolio</p>
+        </div>
 
-                <InputField
-                    name="password"
-                    label="Password"
-                    placeholder="Enter your password"
-                    type="password"
-                    register={register}
-                    error={errors.password}
-                    validation={{ required: 'Password is required', minLength: 8 }}
-                />
+        <form onSubmit={handleSubmit(onSubmit)} className="signin-form">
+          {/* Email */}
+          <div className="auth-field">
+            <label className="auth-label">
+              <Mail size={13} className="auth-label-icon" /> Email address
+            </label>
+            <input
+              {...register('email', {
+                required: 'Email is required',
+                pattern: { value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/, message: 'Invalid email' },
+              })}
+              type="email"
+              placeholder="you@example.com"
+              className={`auth-input ${errors.email ? 'auth-input-error' : ''}`}
+              autoComplete="email"
+            />
+            {errors.email && <p className="auth-error">{errors.email.message}</p>}
+          </div>
 
-                <Button type="submit" disabled={isSubmitting} className="yellow-btn w-full mt-5">
-                    {isSubmitting ? 'Signing In' : 'Sign In'}
-                </Button>
+          {/* Password */}
+          <div className="auth-field">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <label className="auth-label">
+                <Lock size={13} className="auth-label-icon" /> Password
+              </label>
+            </div>
+            <div className="auth-input-wrapper auth-input-password">
+              <input
+                {...register('password', {
+                  required: 'Password is required',
+                  minLength: { value: 8, message: 'Min 8 characters' },
+                })}
+                type={showPassword ? 'text' : 'password'}
+                placeholder="••••••••"
+                className={`auth-input ${errors.password ? 'auth-input-error' : ''}`}
+                autoComplete="current-password"
+              />
+              <button type="button" className="auth-password-toggle" onClick={() => setShowPassword(v => !v)} tabIndex={-1}>
+                {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
+              </button>
+            </div>
+            {errors.password && <p className="auth-error">{errors.password.message}</p>}
+          </div>
 
-                <FooterLink text="Don't have an account?" linkText="Create an account" href="/sign-up" />
-            </form>
-        </>
-    );
+          <button type="submit" disabled={isSubmitting} className="auth-submit-btn">
+            {isSubmitting ? <><Loader2 size={17} className="animate-spin" /> Signing in…</> : <>Sign In <ArrowRight size={17} /></>}
+          </button>
+        </form>
+
+        <div className="auth-divider"><span>or</span></div>
+
+        <p className="auth-footer-text">
+          Don&apos;t have an account?{' '}
+          <Link href="/sign-up" className="auth-footer-link">Create one free</Link>
+        </p>
+      </div>
+    </div>
+  );
 };
+
 export default SignIn;

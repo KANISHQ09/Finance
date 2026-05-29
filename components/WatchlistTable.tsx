@@ -11,6 +11,7 @@ import {
 import { WATCHLIST_TABLE_HEADER } from '@/lib/constants';
 import { Button } from './ui/button';
 import WatchlistButton from './WatchlistButton';
+import { StockAlertButton } from './StockAlertButton';
 import { useRouter } from 'next/navigation';
 import { cn, getChangeColorClass } from '@/lib/utils'; // Assumed utils
 
@@ -74,17 +75,20 @@ export function WatchlistTable({ watchlist }: WatchlistTableProps) {
                                 {item.marketCap || '—'}
                             </TableCell>
                             <TableCell>
-                                {/* Stop propagation so clicking the button doesn't trigger row navigation */}
-                                <Button className='add-alert' onClick={(e) => e.stopPropagation()}>Add Alert</Button>
-                            </TableCell>
-                            <TableCell>
-                                <WatchlistButton
-                                    symbol={item.symbol}
-                                    company={item.company}
-                                    isInWatchlist={true} // Always true here since it's the watchlist table
-                                    showTrashIcon={true}
-                                    type='icon'
-                                />
+                                <div className="flex items-center gap-3">
+                                    <div onClick={(e) => e.stopPropagation()}>
+                                        <StockAlertButton symbol={item.symbol} currentPrice={item.currentPrice} iconOnly={true} />
+                                    </div>
+                                    <div onClick={(e) => e.stopPropagation()}>
+                                        <WatchlistButton
+                                            symbol={item.symbol}
+                                            company={item.company}
+                                            isInWatchlist={true}
+                                            showTrashIcon={true}
+                                            type='icon'
+                                        />
+                                    </div>
+                                </div>
                             </TableCell>
                         </TableRow>
                     ))}
