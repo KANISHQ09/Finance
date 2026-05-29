@@ -491,25 +491,15 @@
 /* ══════════════════════════════════════════════════════════
    AUTH PAGES — Black/Yellow Theme (matches website)
 ══════════════════════════════════════════════════════════ */
-.signin-container {
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #050505;
-  overflow: hidden;
-  padding: 2rem 1rem;
-}
-
-/* Subtle grain texture overlay */
-.signin-container::before {
+/* Subtle grain texture overlay on the card itself */
+.signin-card::before {
   content: '';
   position: absolute;
   inset: 0;
   background-image: radial-gradient(circle at 20% 50%, rgba(253,212,88,0.03) 0%, transparent 50%),
                     radial-gradient(circle at 80% 20%, rgba(255,255,255,0.02) 0%, transparent 40%);
   pointer-events: none;
+  border-radius: 16px;
 }
 
 /* No blobs — clean black aesthetic */
@@ -526,6 +516,7 @@
   padding: 2.5rem 2rem;
   box-shadow: 0 32px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03) inset;
   animation: cardEntrance 0.4s ease both;
+  margin: auto;
 }
 
 .signup-card { max-width: 480px; }
@@ -567,7 +558,7 @@
 }
 .signin-subtitle {
   font-size: 0.875rem;
-  color: #9095A1;
+  color: #A1A1AA;
 }
 
 /* Form */
@@ -577,12 +568,12 @@
 .auth-label {
   font-size: 0.8rem;
   font-weight: 600;
-  color: #9095A1;
+  color: #E2E8F0;
   display: flex;
   align-items: center;
   gap: 5px;
 }
-.auth-label-icon { flex-shrink: 0; color: #9095A1; }
+.auth-label-icon { flex-shrink: 0; color: #E2E8F0; }
 
 .auth-input-wrapper { position: relative; }
 
@@ -593,14 +584,14 @@
   background: #0A0A0A;
   border: 1px solid #212328;
   border-radius: 8px;
-  color: #f5f5f5;
+  color: #ffffff;
   font-size: 0.9375rem;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
   -webkit-appearance: none;
   appearance: none;
 }
-.auth-input::placeholder { color: #30333A; }
+.auth-input::placeholder { color: #64748B; }
 .auth-input:focus {
   border-color: #FDD458;
   box-shadow: 0 0 0 3px rgba(253, 212, 88, 0.1);
@@ -613,11 +604,11 @@
   right: 12px; top: 50%;
   transform: translateY(-50%);
   background: none; border: none;
-  color: #30333A; cursor: pointer;
+  color: #64748B; cursor: pointer;
   display: flex; align-items: center;
   transition: color 0.2s;
 }
-.auth-password-toggle:hover { color: #9095A1; }
+.auth-password-toggle:hover { color: #E2E8F0; }
 
 .auth-error {
   font-size: 0.75rem;
@@ -684,7 +675,7 @@
   background: #0A0A0A;
   border: 1px solid #212328;
   border-radius: 8px;
-  color: #9095A1;
+  color: #E2E8F0;
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
@@ -693,7 +684,7 @@
   gap: 6px;
   transition: border-color 0.2s, color 0.2s;
 }
-.auth-back-btn:hover { border-color: #30333A; color: #f5f5f5; }
+.auth-back-btn:hover { border-color: #30333A; color: #ffffff; }
 
 .signup-step-nav { display: flex; gap: 12px; margin-top: 0.25rem; }
 
@@ -701,7 +692,7 @@
 .auth-footer-text {
   text-align: center;
   font-size: 0.8125rem;
-  color: #9095A1;
+  color: #A1A1AA;
   margin-top: 1.5rem;
 }
 .auth-footer-link {
@@ -725,7 +716,7 @@
   height: 1px;
   background: #212328;
 }
-.auth-divider span { font-size: 0.7rem; color: #30333A; font-weight: 500; }
+.auth-divider span { font-size: 0.7rem; color: #64748B; font-weight: 500; }
 
 /* Step indicator */
 .signup-steps {
@@ -763,7 +754,7 @@
   color: #212328;
   transition: color 0.25s;
 }
-.signup-step-active .signup-step-label { color: #9095A1; }
+.signup-step-active .signup-step-label { color: #E2E8F0; }
 .signup-step-line {
   height: 1px;
   flex: 1;
@@ -795,7 +786,7 @@
   align-items: center;
   gap: 12px;
   font-size: 0.875rem;
-  color: #9095A1;
+  color: #CBD5E1;
 }
 .verify-step-num {
   width: 24px; height: 24px;

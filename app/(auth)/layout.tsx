@@ -16,7 +16,7 @@ const Layout = async ({ children }: { children : React.ReactNode }) => {
                     <Image src="/assets/icons/logo.png" alt="Finnext logo" width={140} height={32} className='h-8 w-auto' />
                 </Link>
 
-                <div className="pb-6 lg:pb-8 flex-1">{children}</div>
+                <div className="pb-6 lg:pb-8 flex-1 flex flex-col justify-center items-center w-full">{children}</div>
             </section>
 
             <section className="auth-right-section">
