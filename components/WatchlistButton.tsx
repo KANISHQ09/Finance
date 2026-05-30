@@ -71,20 +71,44 @@ const WatchlistButton = ({
             ? `Remove ${symbol} from watchlist`
             : `Add ${symbol} to watchlist`
         }
-        className={`watchlist-icon-btn ${added ? 'watchlist-icon-added' : ''}`}
+        className="flex items-center justify-center p-2 rounded-lg transition-all"
+        style={{
+          background: added ? 'rgba(253, 212, 88, 0.15)' : 'transparent',
+          color: '#FDD458',
+          border: `1px solid ${added ? 'rgba(253, 212, 88, 0.3)' : 'rgba(48, 51, 58, 0.5)'}`,
+          cursor: 'pointer',
+        }}
         onClick={handleClick}
       >
-        <Star fill={added ? 'currentColor' : 'none'} />
+        <Star size={16} fill={added ? 'currentColor' : 'none'} />
       </button>
     );
   }
 
   return (
     <button
-      className={`watchlist-btn ${added ? 'watchlist-remove' : ''}`}
       onClick={handleClick}
+      className="flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm transition-all"
+      style={{
+        background: added ? 'rgba(255, 73, 91, 0.15)' : 'rgba(253, 212, 88, 0.15)',
+        color: added ? '#FF495B' : '#FDD458',
+        border: `1px solid ${added ? 'rgba(255, 73, 91, 0.3)' : 'rgba(253, 212, 88, 0.3)'}`,
+        cursor: 'pointer',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.background = added ? 'rgba(255, 73, 91, 0.25)' : 'rgba(253, 212, 88, 0.25)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.background = added ? 'rgba(255, 73, 91, 0.15)' : 'rgba(253, 212, 88, 0.15)';
+      }}
     >
-      {showTrashIcon && added ? <Trash2 /> : null}
+      {showTrashIcon && added ? (
+        <Trash2 size={14} />
+      ) : added ? (
+        <Star fill="currentColor" size={14} />
+      ) : (
+        <Star size={14} />
+      )}
       <span>{label}</span>
     </button>
   );

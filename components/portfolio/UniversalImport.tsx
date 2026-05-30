@@ -102,12 +102,10 @@ export function UniversalImport({ onAssetsChange }: UniversalImportProps) {
     updateAssets(updated);
   };
 
-  const removeAsset = (i: number) => updateAssets(assets.filter((_, idx) => idx !== i));
-
-  const saveToServer = async () => {
+  const saveAssets = async (assetsList: Asset[]) => {
     setIsSaving(true);
     // Filter out rows that have no symbol or 0 quantity
-    const validAssets = assets.filter(a => a.symbol && a.quantity > 0);
+    const validAssets = assetsList.filter(a => a.symbol && a.quantity > 0);
     
     try {
       const res = await fetch('/api/portfolio/external', {
@@ -129,6 +127,20 @@ export function UniversalImport({ onAssetsChange }: UniversalImportProps) {
     } finally {
       setIsSaving(false);
     }
+  };
+
+  const removeAsset = async (i: number) => {
+    const updated = assets.filter((_, idx) => idx !== i);
+    setAssets(updated);
+    onAssetsChange?.(updated);
+    setSaved(false);
+    
+    // Auto-save the deletion immediately to the server
+    await saveAssets(updated);
+  };
+
+  const saveToServer = async () => {
+    await saveAssets(assets);
   };
 
   return (
