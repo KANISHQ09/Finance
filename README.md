@@ -13,19 +13,45 @@
 
 ---
 
-## 🤖 2. The NVIDIA NIM Multi-Agent System
+## 🤖 2. The NVIDIA NIM Multi-Agent Orchestrator
 
-FinNext replaces generic generative AI models with specialized financial agents built on high-throughput **NVIDIA NIM V3 Inference endpoints**. These agents leverage dedicated context windows and prompt-engineering protocols to perform precise financial analyses:
+FinNext's AI assistant is a **true multi-agent system** — not a single chatbot. Every message is routed through a 3-step orchestrator pipeline before a response is generated:
 
-| Agent | Purpose & Key Metrics | Endpoint |
+```
+User message
+    │
+    ▼
+directIntent()          ← keyword classifier, 0ms, no API call
+    │
+    ▼
+Specialist Agent        ← NVIDIA NIM call #1 (structured JSON analysis)
+    │
+    ▼
+Synthesizer             ← NVIDIA NIM call #2
+  Input:  RAG context (profile + portfolio + sandbox from DB)
+        + specialist JSON output
+        + original user message
+  Output: { message, dashboardAction }
+```
+
+### Specialist Agents
+
+Each agent lives in `lib/agents/specialists.ts` and is invoked by the orchestrator (`/api/chat`) based on detected intent:
+
+| Intent Detected | Specialist Agent | What It Produces |
 | :--- | :--- | :--- |
-| **💼 Portfolio Analysis** | Evaluates diversification, sector weights, allocation health, and cash ratios. | `/api/agents/portfolio` |
-| **🛡️ Risk Assessment** | Measures market volatility, historical beta, Sharpe ratios, and calculates tailored risk scores. | `/api/agents/risk` |
-| **📊 Market Sentiment** | Aggregates real-time news streams, social trends, and filings for aggregate sentiment scores. | `/api/agents/sentiment` |
-| **🔮 Short-Term Forecast** | Performs numeric, regression-based technical analysis for short-term price movements. | `/api/agents/forecast` |
-| **🔍 Equity Screener** | Filters stocks dynamically utilizing critical fundamental & technical indicators. | `/api/agents/screener` |
-| **💡 Recommendation** | Synthesis agent producing holistic buy/sell/hold ideas with target entries and exits. | `/api/agents/recommendation` |
-| **🧾 AI Depth Report** | Generates comprehensive per-stock deep-dive reports with sector context and risk outlook. | `/api/agents/depth-report` |
+| _"How risky is my portfolio?"_ | **🛡️ Risk Assessment** | `riskScore`, `riskLevel`, `betaEstimate`, `sharpeEstimate`, `hedgingSuggestions` |
+| _"Analyze my portfolio"_ | **💼 Portfolio Analysis** | `diversificationScore`, `sectors[]`, `topRisks[]`, `rebalancingActions[]` |
+| _"Recommend stocks for me"_ | **💡 Recommendation** | `recommendations[]` with `action`, `conviction`, `rationale`, `targetEntry`, `stopLoss` |
+| _"Predict AAPL next month"_ | **🔮 Forecast** | `marketOutlook`, `perTicker[]` with `thirtyDayOutlook`, `keyLevels`, `keyDrivers` |
+| _"What's market sentiment?"_ | **📊 Sentiment** | `overallSentiment`, `sentimentScore`, `perTicker[]`, `keyThemes[]`, `riskEvents[]` |
+| _"Find me value stocks"_ | **🔍 Equity Screener** | `results[]` with `ticker`, `sector`, `whyItFits`, `riskRating`, `growthPotential` |
+| _General questions_ | _(no specialist)_ | Pure conversational response using RAG context only |
+
+> **Graceful degradation**: if a specialist agent fails, the orchestrator falls back to direct conversational chat — the user experience is never broken.
+
+### AI Depth Report
+A separate **depth report agent** (`/api/agents/depth-report`) performs a full cross-account audit — analyzing real portfolio + sandbox side-by-side — and is triggered from the Assistant page sidebar. It produces a combined health score, sector overlap analysis, risk/opportunity cards, and a downloadable PDF.
 
 ---
 
@@ -45,9 +71,10 @@ FinNext replaces generic generative AI models with specialized financial agents 
 * **Quick Actions**: Add to Watchlist, Set Price Alert, and paper-trade directly from the stock page.
 
 ### 🤖 Live AI Assistant (`/assistant`)
-* **Real-Time Interactive Panel**: Chat directly with finance models about watchlist items, portfolio status, or current stock trends.
-* **Context-Aware Memory**: Recalls conversation history for deeper equity deep-dives.
-* **Streaming Responses**: Low-latency streamed output from NVIDIA NIM for a fluid chat experience.
+* **Multi-Agent Orchestrator**: Every message triggers intent detection → specialist agent → synthesizer — two coordinated NVIDIA NIM calls producing a personalized, data-driven answer.
+* **RAG-Powered Context**: The assistant reads your real profile (risk tolerance, goals), portfolio holdings, and sandbox positions from MongoDB on every request, so responses are always personalised to _your_ data.
+* **Dashboard Actions**: The assistant can trigger UI actions — highlighting stocks, recommending tickers with clickable links, or executing sandbox trades — directly from the chat response.
+* **AI Depth Report**: Generate a full strategic audit (real portfolio + sandbox combined) from the assistant sidebar, with PDF export.
 
 ### 🧪 Paper Trading Sandbox (`/sandbox`)
 * **Virtual Portfolio**: Start with a virtual balance and execute risk-free BUY/SELL trades.
