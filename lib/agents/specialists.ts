@@ -23,6 +23,29 @@ export interface UserProfile {
 }
 
 // ─────────────────────────────────────────────
+// Helper: extract the most prominent ticker from a message
+// ─────────────────────────────────────────────
+
+export function extractPrimaryTicker(message: string): string | null {
+  // Known blacklist of common English words that look like tickers
+  const BLACKLIST = new Set([
+    'A','I','IS','AM','OR','IN','ON','AT','MY','TO','DO','GO','BE','AS','AN',
+    'IT','IF','OF','SO','US','UP','ME','WE','BY','AI','AND','THE','FOR','BUY',
+    'GET','NOW','HOW','CAN','YOU','ARE','HAS','HAD','WAS','NOT','BUT','ALL',
+    'OUT','DAY','HIS','HER','SHE','HIM','ITS','OUR','NEW','OLD','TOP','LOW',
+    'HIGH','FULL','RUN','DEEP','DIVE','FAST','GIVE','SHOW','TELL','FIND',
+    'SELL','HOLD','RISK','SAFE','GOOD','BEST','SOME','THIS','THAT','FROM',
+    'YOUR','WILL','WANT','NEED','LIKE','MORE','THAN','HAVE','BEEN','ALSO',
+    'MUCH','JUST','ONLY','YEAR','TIME','MAKE','LONG','TERM','ABOUT','WHAT',
+    'WHEN','WITH','SIGNAL','SIGNALS','TRADE','TRADES','TRADING',
+  ]);
+  const matches = message.toUpperCase().match(/\b[A-Z]{1,5}\b/g) ?? [];
+  return matches.find(m => m.length >= 2 && !BLACKLIST.has(m)) ?? null;
+}
+
+
+
+// ─────────────────────────────────────────────
 // 1. Portfolio Analysis Agent
 // ─────────────────────────────────────────────
 
@@ -195,4 +218,64 @@ Return 3 to 5 recommendations. Return ONLY valid JSON, no markdown fences, no pr
     userMessage,
     maxTokens: 1400,
   });
+}
+
+// ─────────────────────────────────────────────
+// 7. Deep Trading Analysis Agent (TradingAgents pipeline)
+// ─────────────────────────────────────────────
+//
+// Routes through /api/trading-agents → Python FastAPI microservice.
+// Fast mode: Technical Analyst → Trader → Risk Manager (3 LLM calls).
+// ─────────────────────────────────────────────
+
+export async function runTradingAgentsAnalysis(
+  message: string,
+  riskTolerance: string = 'MEDIUM'
+): Promise<string> {
+  // Extract the ticker from the message
+  const ticker = extractPrimaryTicker(message);
+
+  if (!ticker) {
+    return JSON.stringify({
+      error: 'No ticker found',
+      hint: 'Please specify a stock ticker, e.g. "deep analysis of AAPL"',
+    });
+  }
+
+  const baseUrl =
+    typeof window !== 'undefined'
+      ? '' // browser — relative
+      : process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'; // server-side
+
+  try {
+    const response = await fetch(`${baseUrl}/api/trading-agents`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ticker, riskTolerance }),
+      signal: AbortSignal.timeout(65_000),
+    });
+
+    if (!response.ok) {
+      const errData = await response.json().catch(() => ({}));
+      return JSON.stringify({
+        error: errData.error ?? `TradingAgents server returned ${response.status}`,
+        ticker,
+      });
+    }
+
+    return await response.text(); // raw JSON string consumed by synthesizer
+  } catch (err: any) {
+    if (err?.name === 'TimeoutError') {
+      return JSON.stringify({
+        error: 'Analysis timed out',
+        ticker,
+        hint: 'The TradingAgents server took too long to respond.',
+      });
+    }
+    return JSON.stringify({
+      error: 'TradingAgents server is not running',
+      ticker,
+      hint: 'Start it with: cd trading-agents-server && start.bat',
+    });
+  }
 }

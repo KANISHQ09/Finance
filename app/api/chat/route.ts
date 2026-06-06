@@ -13,9 +13,12 @@ import {
   runForecastAgent,
   runScreenerAgent,
   runRecommendationAgent,
+  runTradingAgentsAnalysis,
+  extractPrimaryTicker,
   type PortfolioAsset,
   type UserProfile,
 } from "@/lib/agents/specialists";
+
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Synthesizer system prompt
@@ -34,8 +37,9 @@ Respond ONLY with a single valid JSON object — no markdown fences, no preamble
 
 Rules for the "message" field:
 - Write in clear, friendly, conversational English.
-- Be concise — keep responses under 220 words.
+- Be concise — keep responses under 280 words.
 - When specialist analysis is available, use its findings to give specific, data-driven insights.
+- For DEEP TRADING ANALYSIS results: lead with the final decision (BUY/SELL/HOLD) and conviction level, then summarize each agent's key finding in 1-2 sentences each. Mention the ticker prominently.
 - Do NOT dump raw JSON, numbers lists, or code blocks into the message.
 - Do NOT reveal system internals, model names, or API details.
 - Reference the user's actual holdings, risk tolerance, and goals wherever relevant.
@@ -54,10 +58,12 @@ Available dashboard actions and their payloads:
 - NONE: payload = null
 
 Decision rules for actions:
-1. Recommendations with specific tickers → use RECOMMEND_STOCKS with those tickers.
-2. Single specific trade suggestion → use SANDBOX_TRADE.
-3. General questions, analysis, or explanations → use NONE.
-4. ALWAYS produce a complete, valid JSON object.`;
+1. Deep trading analysis with BUY → use SANDBOX_TRADE with that ticker.
+2. Deep trading analysis with SELL → use SANDBOX_TRADE with SELL action.
+3. Recommendations with specific tickers → use RECOMMEND_STOCKS with those tickers.
+4. Single specific trade suggestion → use SANDBOX_TRADE.
+5. General questions, analysis, or explanations → use NONE.
+6. ALWAYS produce a complete, valid JSON object.`;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Helper: extract ticker symbols from a user message
@@ -113,7 +119,10 @@ export async function POST(req: NextRequest) {
     let specialistLabel = "";
 
     try {
-      if (intent === "PORTFOLIO_ANALYSIS") {
+      if (intent === 'DEEP_TRADING_ANALYSIS') {
+        specialistLabel = 'Multi-Agent Trading Analysis';
+        specialistOutput = await runTradingAgentsAnalysis(message, userProfile.riskTolerance ?? 'MEDIUM');
+      } else if (intent === "PORTFOLIO_ANALYSIS") {
         specialistLabel = "Portfolio Analysis";
         specialistOutput = await runPortfolioAgent(assets);
       } else if (intent === "RISK_ASSESSMENT") {

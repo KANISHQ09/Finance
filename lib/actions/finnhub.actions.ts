@@ -285,3 +285,4 @@ export const getStocksDetails = cache(async (symbol: string) => {
   }
 });
 
+

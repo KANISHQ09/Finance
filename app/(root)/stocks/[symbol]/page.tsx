@@ -38,7 +38,7 @@ export default async function StockDetails({ params }: StockDetailsPageProps) {
 
   return (
     <div className='flex min-h-screen p-4 md:p-6 lg:p-8 flex-col' style={{ gap: 24 }}>
-      
+
       {/* Top Banner Row - Full Width */}
       <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6 bg-[#141414] border border-[#212328] p-6 rounded-2xl shadow-xl w-full">
         {/* Left: Ticker Symbol Info */}
@@ -49,7 +49,7 @@ export default async function StockDetails({ params }: StockDetailsPageProps) {
             height={200}
           />
         </div>
-        
+
         {/* Right: Quick Action Controls */}
         <div className="flex items-center gap-3 bg-[#0C0C0E] border border-[#212328] p-4 rounded-xl shadow-inner flex-wrap justify-center lg:justify-end shrink-0">
           <WatchlistButton
@@ -58,9 +58,9 @@ export default async function StockDetails({ params }: StockDetailsPageProps) {
             isInWatchlist={isInWatchlist}
             type='button'
           />
-          <StockAlertButton 
-            symbol={symbol.toUpperCase()} 
-            currentPrice={stockData.currentPrice} 
+          <StockAlertButton
+            symbol={symbol.toUpperCase()}
+            currentPrice={stockData.currentPrice}
           />
           <SandboxTradeWidget
             symbol={symbol.toUpperCase()}
@@ -72,7 +72,7 @@ export default async function StockDetails({ params }: StockDetailsPageProps) {
 
       {/* Main Responsive Grid Layout */}
       <section className='grid grid-cols-1 lg:grid-cols-3 gap-6 w-full items-start'>
-        
+
         {/* Left Side Column - Widescreen Chart & Financials (2/3 width) */}
         <div className='lg:col-span-2 flex flex-col gap-6 w-full'>
           {/* Advanced Live Candlestick Chart */}

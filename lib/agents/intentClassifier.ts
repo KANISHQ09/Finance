@@ -5,6 +5,7 @@
  */
 
 export type AgentIntent =
+  | 'DEEP_TRADING_ANALYSIS'
   | 'PORTFOLIO_ANALYSIS'
   | 'RISK_ASSESSMENT'
   | 'MARKET_SENTIMENT'
@@ -19,6 +20,13 @@ export type AgentIntent =
  */
 export function detectIntent(message: string): AgentIntent {
   const m = message.toLowerCase();
+
+  // ── Deep multi-agent trading analysis (TradingAgents pipeline) ─────────────
+  // Checked FIRST — explicit deep-analysis requests bypass simpler specialists.
+  if (
+    /\b(deep analysis|deep dive|full analysis|multi.?agent|trading agent|full breakdown|agent analysis|technical trader|trading signal|trade signal|signal for|full report|analyst report)\b/.test(m) ||
+    /\b(what do the agents|what do the analysts|run agents|run analysis|run the agents)\b/.test(m)
+  ) return 'DEEP_TRADING_ANALYSIS';
 
   // Risk-related queries
   if (/\b(risk|volatile|volatility|beta|safe|danger|exposure|drawdown|sharpe|hedge|protection)\b/.test(m))
@@ -46,3 +54,4 @@ export function detectIntent(message: string): AgentIntent {
 
   return 'GENERAL';
 }
+
