@@ -703,6 +703,15 @@
 }
 .auth-footer-link:hover { color: #E8BA40; text-decoration: underline; }
 
+.auth-forgot-link {
+  font-size: 0.75rem;
+  color: #64748B;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.auth-forgot-link:hover { color: #FDD458; }
+
 /* Divider */
 .auth-divider {
   display: flex;

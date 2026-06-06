@@ -69,6 +69,9 @@ const SignIn = () => {
             <label className="auth-label">
               <Lock size={13} className="auth-label-icon" /> Password
             </label>
+            <Link href="/forgot-password" className="auth-forgot-link">
+              Forgot password?
+            </Link>
           </div>
           <div className="auth-input-wrapper auth-input-password">
             <input

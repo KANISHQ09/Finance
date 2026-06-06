@@ -2,7 +2,7 @@ import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { connectToDatabase } from "@/database/mongoose";
 import { nextCookies } from "better-auth/next-js";
-import { sendVerificationEmail } from "@/lib/nodemailer/verification";
+import { sendVerificationEmail, sendPasswordResetEmail } from "@/lib/nodemailer/verification";
 
 /**
  * Creates a BetterAuth instance with MongoDB adapter.
@@ -20,6 +20,13 @@ function createAuth(db: any) {
       minPasswordLength: 8,
       maxPasswordLength: 128,
       autoSignIn: true,
+      sendResetPassword: async ({ user, url }) => {
+        await sendPasswordResetEmail({
+          email: user.email,
+          name: user.name ?? "Investor",
+          url,
+        });
+      },
     },
     emailVerification: {
       sendVerificationEmail: async ({ user, url }) => {

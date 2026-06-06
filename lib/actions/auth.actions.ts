@@ -39,3 +39,31 @@ export const signOut = async () => {
         return { success: false, error: 'Sign out failed' }
     }
 }
+
+export const requestPasswordReset = async (email: string) => {
+    try {
+        await auth.api.forgetPassword({
+            body: {
+                email,
+                redirectTo: '/reset-password',
+            },
+        });
+        // Always return success to prevent email enumeration attacks
+        return { success: true };
+    } catch (e) {
+        console.log('Password reset request failed', e);
+        return { success: false, error: 'Failed to send reset email. Please try again.' };
+    }
+};
+
+export const resetPassword = async ({ token, newPassword }: { token: string; newPassword: string }) => {
+    try {
+        await auth.api.resetPassword({
+            body: { token, newPassword },
+        });
+        return { success: true };
+    } catch (e) {
+        console.log('Password reset failed', e);
+        return { success: false, error: 'Reset failed. The link may have expired.' };
+    }
+};
