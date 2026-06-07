@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { UniversalImport } from '@/components/portfolio/UniversalImport';
+import { GrowwMCPConnect } from '@/components/portfolio/GrowwMCPConnect';
 import { User, ShieldAlert, Target, Save, CheckCircle2, Loader2 } from 'lucide-react';
 
 export default function ProfilePage() {
@@ -125,6 +126,9 @@ export default function ProfilePage() {
             </div>
           </div>
         </div>
+
+        {/* Groww MCP Connection */}
+        <GrowwMCPConnect />
 
         {/* Portfolio Import */}
         {/* Portfolio Import */}
