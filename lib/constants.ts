@@ -5,7 +5,6 @@ export const NAV_ITEMS = [
     { href: "/assistant", label: "AI Assistant" },
     { href: "/sandbox", label: "Sandbox" },
     { href: "/profile", label: "Profile" },
-    { href: "/pricing", label: "Pricing" },
 ];
 
 // Sign-up form select options
@@ -45,7 +44,7 @@ export const MARKET_OVERVIEW_WIDGET_CONFIG = {
     colorTheme: "dark", // dark mode
     dateRange: "12M", // last 12 months
     locale: "en", // language
-    largeChartUrl: "", // link to a large chart if needed
+    largeChartUrl: "/stocks", // redirect clicks to our internal stock page
     isTransparent: true, // makes background transparent
     showFloatingTooltip: true, // show tooltip on hover
     plotLineColorGrowing: "#0FEDBE", // line color when price goes up
@@ -106,7 +105,7 @@ export const HEATMAP_WIDGET_CONFIG = {
     grouping: "sector",
     isTransparent: true,
     locale: "en",
-    symbolUrl: "",
+    symbolUrl: "/stocks/{tvsymbol}", // redirect clicks to our internal stock page
     colorTheme: "dark",
     exchanges: [],
     hasTopBar: false,
@@ -138,6 +137,7 @@ export const MARKET_DATA_WIDGET_CONFIG = {
     colorTheme: "dark",
     isTransparent: false,
     backgroundColor: "#0F0F0F",
+    largeChartUrl: "/stocks", // redirect clicks to our internal stock page
     symbolsGroups: [
         {
             name: "Financials",

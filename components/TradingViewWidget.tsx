@@ -13,9 +13,21 @@ interface TradingViewWidgetProps {
 }
 
 const TradingViewWidget = ({ title, scriptUrl, config, height = 600, className }: TradingViewWidgetProps) => {
-    // Deduct height if title is present to prevent card overflow
     const widgetHeight = title ? height - 60 : height;
-    const containerRef = useTradingViewWidget(scriptUrl, config, widgetHeight);
+
+    // Convert relative URLs to absolute URLs so TradingView iframe redirects back to our site properly
+    const resolvedConfig: Record<string, unknown> = { ...config };
+    if (typeof window !== "undefined") {
+        const origin = window.location.origin;
+        if (typeof resolvedConfig.symbolUrl === "string" && resolvedConfig.symbolUrl.startsWith("/")) {
+            resolvedConfig.symbolUrl = `${origin}${resolvedConfig.symbolUrl}`;
+        }
+        if (typeof resolvedConfig.largeChartUrl === "string" && resolvedConfig.largeChartUrl.startsWith("/")) {
+            resolvedConfig.largeChartUrl = `${origin}${resolvedConfig.largeChartUrl}`;
+        }
+    }
+
+    const containerRef = useTradingViewWidget(scriptUrl, resolvedConfig, widgetHeight);
 
     return (
         <div className="w-full h-full flex flex-col p-5">

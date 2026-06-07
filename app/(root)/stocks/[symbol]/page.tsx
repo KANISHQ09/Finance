@@ -12,7 +12,7 @@ import {
   COMPANY_PROFILE_WIDGET_CONFIG,
   COMPANY_FINANCIALS_WIDGET_CONFIG,
 } from '@/lib/constants';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
 const widgetCardStyle = (height: number) => ({
   background: '#141414',
@@ -25,6 +25,14 @@ const widgetCardStyle = (height: number) => ({
 
 export default async function StockDetails({ params }: StockDetailsPageProps) {
   const { symbol } = await params;
+
+  // Handle TradingView symbols like "NASDAQ:AAPL" or url-encoded "NASDAQ%3AAAPL"
+  const decodedSymbol = decodeURIComponent(symbol);
+  if (decodedSymbol.includes(':')) {
+    const cleanSymbol = decodedSymbol.split(':')[1];
+    redirect(`/stocks/${cleanSymbol.toUpperCase()}`);
+  }
+
   const scriptUrl = `https://s3.tradingview.com/external-embedding/embed-widget-`;
 
   const stockData = await getStocksDetails(symbol.toUpperCase());
