@@ -1,9 +1,9 @@
 import TradingViewWidget from "@/components/TradingViewWidget";
+import NewsWidget from "@/components/NewsWidget";
 import {
     HEATMAP_WIDGET_CONFIG,
     MARKET_DATA_WIDGET_CONFIG,
     MARKET_OVERVIEW_WIDGET_CONFIG,
-    TOP_STORIES_WIDGET_CONFIG
 } from "@/lib/constants";
 
 const widgetCard = {
@@ -48,11 +48,7 @@ const Home = () => {
             <section className="grid grid-cols-1 lg:grid-cols-3" style={{ gap: 20 }}>
                 <div className="lg:col-span-1" style={{ height: 620 }}>
                     <div style={widgetCard}>
-                        <TradingViewWidget
-                            scriptUrl={`${scriptUrl}timeline.js`}
-                            config={TOP_STORIES_WIDGET_CONFIG}
-                            height={600}
-                        />
+                        <NewsWidget />
                     </div>
                 </div>
                 <div className="lg:col-span-2" style={{ height: 620 }}>
