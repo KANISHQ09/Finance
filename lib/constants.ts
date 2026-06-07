@@ -5,6 +5,7 @@ export const NAV_ITEMS = [
     { href: "/assistant", label: "AI Assistant" },
     { href: "/sandbox", label: "Sandbox" },
     { href: "/profile", label: "Profile" },
+    { href: "/pricing", label: "Pricing" },
 ];
 
 // Sign-up form select options
