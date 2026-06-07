@@ -95,7 +95,7 @@ const PricingPage = () => {
             <li className="flex items-start gap-3">
               <Check className="text-[#00D09C] mt-0.5 shrink-0" size={18} />
               <span className="text-[#CCDADC] text-sm leading-relaxed">
-                <strong className="text-white">Real-time Alerts</strong> via SMS/WhatsApp
+                <strong className="text-white">Real-time Alerts</strong> via Email
               </span>
             </li>
             <li className="flex items-start gap-3">
