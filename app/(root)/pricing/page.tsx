@@ -1,191 +1,140 @@
-import { Check, Zap, DollarSign, Users, Cpu, Server, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import Link from 'next/link';
-
-interface Feature {
-    text: string;
-    description: string;
-    basic: boolean;
-    pro: boolean;
-    premium: boolean;
-    icon: React.ElementType;
-}
-
-const features: Feature[] = [
-    { 
-        text: 'Stock Watchlist & Real-Time Charts', 
-        description: 'Track your favorite stocks and view market data.',
-        basic: true, pro: true, premium: true, icon: Check 
-    },
-    { 
-        text: 'Daily Market Digest Email', 
-        description: 'Automated market summary sent daily (via Inngest).',
-        basic: true, pro: true, premium: true, icon: Check 
-    },
-    { 
-        text: 'AI Agent Access', 
-        description: 'Access to the core 6 specialized agents (Portfolio, Risk, Sentiment, etc.).',
-        basic: false, pro: true, premium: true, icon: Cpu 
-    },
-    { 
-        text: 'Unlimited AI Chat Queries', 
-        description: 'No limits on the number of questions you can ask the agents.',
-        basic: false, pro: true, premium: true, icon: Zap
-    },
-    { 
-        text: 'Real-Time Quote Streaming', 
-        description: 'Zero-latency quotes essential for active trading decisions.',
-        basic: false, pro: true, premium: true, icon: Server
-    },
-    { 
-        text: 'Custom SMS/Email Alerts (via Inngest)', 
-        description: 'Receive instant notifications when your price targets are hit.',
-        basic: false, pro: true, premium: true, icon: Zap
-    },
-    { 
-        text: 'Custom AI Screener Data Export', 
-        description: 'Export AI-filtered stock lists for use in external tools (CSV/JSON).',
-        basic: false, pro: false, premium: true, icon: DollarSign
-    },
-    { 
-        text: 'Priority Agent Processing', 
-        description: 'Faster response times for critical market decisions.',
-        basic: false, pro: false, premium: true, icon: Zap 
-    },
-];
-
-const tiers = [
-    {
-        name: 'Basic',
-        price: 'Free',
-        priceDetail: 'forever',
-        description: 'The foundation for observation. Ideal for new users and casual investors.',
-        color: 'text-gray-400',
-        planKey: 'basic',
-    },
-    {
-        name: 'Pro',
-        price: '$29',
-        priceDetail: 'per month',
-        description: 'Our most popular tier. Unlock the full value of the AI Analyst Suite.',
-        color: 'text-yellow-500',
-        planKey: 'pro',
-    },
-    {
-        name: 'Premium',
-        price: '$79',
-        priceDetail: 'per month',
-        description: 'Maximize your edge with high-speed execution and comprehensive data control.',
-        color: 'text-green-400',
-        planKey: 'premium',
-    },
-];
+import { Check, X, Sparkles, Zap } from "lucide-react";
+import Link from "next/link";
+import React from "react";
 
 const PricingPage = () => {
-    // Helper function to render icons based on plan inclusion
-    const FeatureIcon = ({ included, highlighted }: { included: boolean, highlighted: boolean }) => {
-        if (included) {
-            return <Check className={cn("h-5 w-5", highlighted ? "text-yellow-500" : "text-green-400")} />;
-        }
-        return <X className="h-5 w-5 text-gray-500" />;
-    };
+  return (
+    <div className="flex flex-col items-center justify-center w-full max-w-6xl mx-auto py-16 px-4 pt-24">
+      
+      {/* Header Section */}
+      <div className="text-center mb-16 max-w-3xl">
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-6 tracking-tight text-[#CCDADC]">
+          Simple, transparent <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00D09C] to-[#0FEDBE]">pricing</span>
+        </h1>
+        <p className="text-lg text-[#9095A1] leading-relaxed">
+          Start for free to manually track your portfolio, or upgrade to Pro for automated broker syncing and unlimited AI-powered intelligence.
+        </p>
+      </div>
 
-    return (
-        <div className="min-h-screen pt-12 pb-20 bg-gray-900 text-white">
-            <header className="text-center mb-16">
-                <h1 className="text-5xl font-extrabold tracking-tight text-gray-100 sm:text-6xl">
-                    Specialized AI Analysis. Simplified Pricing.
-                </h1>
-                <p className="mt-4 text-xl text-gray-400 max-w-3xl mx-auto">
-                    Choose the plan that matches your trading frequency and the level of artificial intelligence you need to gain an edge.
-                </p>
-            </header>
+      {/* Pricing Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl">
+        
+        {/* FREE TIER */}
+        <div className="relative bg-[#0A0A0A] border border-[#212328] rounded-2xl p-8 md:p-10 flex flex-col transition-all duration-300 hover:border-[#3A3D45] hover:shadow-xl hover:shadow-black/50">
+          <div className="mb-8">
+            <h3 className="text-2xl font-bold text-white mb-2">Basic</h3>
+            <p className="text-[#9095A1] text-sm">Perfect for beginners and manual trackers.</p>
+          </div>
+          <div className="mb-8 flex items-baseline gap-2">
+            <span className="text-5xl font-black text-white">$0</span>
+            <span className="text-[#9095A1] font-medium">/ forever</span>
+          </div>
+          
+          <ul className="flex flex-col gap-4 mb-10 flex-grow">
+            <li className="flex items-start gap-3">
+              <Check className="text-[#00D09C] mt-0.5 shrink-0" size={18} />
+              <span className="text-[#CCDADC] text-sm leading-relaxed">Manual Portfolio Tracking</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <Check className="text-[#00D09C] mt-0.5 shrink-0" size={18} />
+              <span className="text-[#CCDADC] text-sm leading-relaxed">Basic Charting & Watchlists</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <Check className="text-[#00D09C] mt-0.5 shrink-0" size={18} />
+              <span className="text-[#CCDADC] text-sm leading-relaxed">1 AI Portfolio Summary / month</span>
+            </li>
+            <li className="flex items-start gap-3 opacity-50">
+              <X className="text-[#9095A1] mt-0.5 shrink-0" size={18} />
+              <span className="text-[#9095A1] text-sm leading-relaxed">No Live Broker Sync</span>
+            </li>
+            <li className="flex items-start gap-3 opacity-50">
+              <X className="text-[#9095A1] mt-0.5 shrink-0" size={18} />
+              <span className="text-[#9095A1] text-sm leading-relaxed">No Real-time Alerts</span>
+            </li>
+          </ul>
 
-            <div className="max-w-6xl mx-auto">
-                {/* Pricing Tiers Header (Responsive Columns) */}
-                <div className="grid grid-cols-4 gap-4 px-6 md:px-0 mb-4 items-end">
-                    <div className="col-span-4 md:col-span-1 text-2xl font-semibold text-gray-200 hidden md:block">
-                        Features
-                    </div>
-                    {tiers.map((tier) => (
-                        <div 
-                            key={tier.name} 
-                            className={cn(
-                                "col-span-1 p-4 rounded-xl text-center border-2",
-                                tier.name === 'Pro' 
-                                    ? 'bg-gray-700 border-yellow-500 shadow-lg shadow-yellow-500/20' 
-                                    : 'bg-gray-800 border-gray-700'
-                            )}
-                        >
-                            <h2 className={cn("text-2xl font-bold", tier.color)}>{tier.name}</h2>
-                            <p className="mt-2 flex justify-center items-baseline">
-                                <span className="text-4xl font-extrabold text-gray-100">
-                                    {tier.price}
-                                </span>
-                                {tier.priceDetail && (
-                                    <span className="ml-1 text-lg font-medium text-gray-500">
-                                        /{tier.priceDetail}
-                                    </span>
-                                )}
-                            </p>
-                            <Button 
-                                asChild
-                                className={cn(
-                                    'w-full mt-4 h-10 font-semibold',
-                                    tier.name === 'Pro' ? 'bg-yellow-500 hover:bg-yellow-600 text-gray-900' : 'bg-gray-600 hover:bg-gray-500 text-white'
-                                )}
-                            >
-                                <Link href="/sign-up">
-                                    {tier.name === 'Basic' ? 'Start Free' : 'Choose Plan'}
-                                </Link>
-                            </Button>
-                        </div>
-                    ))}
-                </div>
-
-                {/* Feature Comparison Grid */}
-                <div className="space-y-3">
-                    {features.map((feature, index) => (
-                        <div 
-                            key={index} 
-                            className={cn(
-                                "grid grid-cols-4 gap-4 p-4 rounded-xl items-center",
-                                index % 2 === 0 ? 'bg-gray-800' : 'bg-gray-850',
-                                features.indexOf(feature) === 2 && 'mt-8 border-t border-yellow-500/50 pt-6' // Separator line for AI features
-                            )}
-                        >
-                            {/* Feature Description Column */}
-                            <div className="col-span-4 md:col-span-1 flex flex-col">
-                                <span className="text-lg font-medium text-gray-100 flex items-center gap-2">
-                                    {feature.icon && <feature.icon className="h-5 w-5 text-gray-400" />}
-                                    {feature.text}
-                                </span>
-                                <span className="text-sm text-gray-500 ml-7 md:ml-0">{feature.description}</span>
-                            </div>
-
-                            {/* Plan Inclusion Columns */}
-                            <div className="col-span-3 grid grid-cols-3 gap-4 md:gap-8 text-center ml-auto w-full md:w-auto">
-                                <div className="text-center">
-                                    <FeatureIcon included={feature.basic} highlighted={false} />
-                                </div>
-                                <div className="text-center">
-                                    <FeatureIcon included={feature.pro} highlighted={true} />
-                                </div>
-                                <div className="text-center">
-                                    <FeatureIcon included={feature.premium} highlighted={false} />
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-            <footer className="text-center mt-16 text-gray-500 text-sm">
-                *The Pro tier includes access to all 6 specialized Lyzr AI agents. All plans are billed monthly.
-            </footer>
+          <Link 
+            href="/sign-in"
+            className="w-full py-3 px-6 rounded-lg font-bold text-center border border-[#212328] text-white hover:bg-[#141414] transition-colors"
+          >
+            Get Started Free
+          </Link>
         </div>
-    );
+
+        {/* PRO TIER */}
+        <div className="relative bg-[#141414] border border-[#00D09C] rounded-2xl p-8 md:p-10 flex flex-col shadow-[0_0_40px_rgba(0,208,156,0.15)] transform md:-translate-y-2 transition-all duration-300 hover:shadow-[0_0_60px_rgba(0,208,156,0.25)]">
+          {/* Badge */}
+          <div className="absolute -top-4 right-8 bg-gradient-to-r from-[#00D09C] to-[#0FEDBE] text-black text-[11px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1 shadow-lg shadow-[#00D09C]/20">
+            <Sparkles size={14} className="fill-black" /> Recommended
+          </div>
+
+          <div className="mb-8">
+            <h3 className="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+              FinNext Pro <Zap className="text-[#00D09C] fill-[#00D09C]" size={20} />
+            </h3>
+            <p className="text-[#9095A1] text-sm">For serious investors who want the AI edge.</p>
+          </div>
+          <div className="mb-8 flex items-baseline gap-2">
+            <span className="text-5xl font-black text-white">$15</span>
+            <span className="text-[#9095A1] font-medium">/ month</span>
+          </div>
+          
+          <ul className="flex flex-col gap-4 mb-10 flex-grow">
+            <li className="flex items-start gap-3">
+              <Check className="text-[#00D09C] mt-0.5 shrink-0" size={18} />
+              <span className="text-[#CCDADC] text-sm leading-relaxed">
+                <strong className="text-white">Live Broker Sync</strong> (Groww, Upstox, etc.)
+              </span>
+            </li>
+            <li className="flex items-start gap-3">
+              <Check className="text-[#00D09C] mt-0.5 shrink-0" size={18} />
+              <span className="text-[#CCDADC] text-sm leading-relaxed">
+                <strong className="text-white">Unlimited AI Intelligence</strong> for stock screening & analysis
+              </span>
+            </li>
+            <li className="flex items-start gap-3">
+              <Check className="text-[#00D09C] mt-0.5 shrink-0" size={18} />
+              <span className="text-[#CCDADC] text-sm leading-relaxed">
+                <strong className="text-white">Real-time Alerts</strong> via SMS/WhatsApp
+              </span>
+            </li>
+            <li className="flex items-start gap-3">
+              <Check className="text-[#00D09C] mt-0.5 shrink-0" size={18} />
+              <span className="text-[#CCDADC] text-sm leading-relaxed">
+                <strong className="text-white">Tax-Loss Harvesting</strong> insights
+              </span>
+            </li>
+            <li className="flex items-start gap-3">
+              <Check className="text-[#00D09C] mt-0.5 shrink-0" size={18} />
+              <span className="text-[#CCDADC] text-sm leading-relaxed">
+                Priority 24/7 Support
+              </span>
+            </li>
+          </ul>
+
+          <Link 
+            href="/profile"
+            className="w-full py-3 px-6 rounded-lg font-bold text-center bg-gradient-to-r from-[#00D09C] to-[#0FEDBE] text-black hover:opacity-90 transition-opacity shadow-lg shadow-[#00D09C]/20"
+          >
+            Upgrade to Pro
+          </Link>
+        </div>
+
+      </div>
+
+      {/* Enterprise / API Footer Note */}
+      <div className="mt-16 text-center max-w-2xl border-t border-[#212328] pt-8">
+        <h4 className="text-white text-lg font-semibold mb-2">Are you a wealth manager or RIA?</h4>
+        <p className="text-[#9095A1] text-sm mb-4">
+          Get FinNext white-labeled for your own clients with our B2B SaaS plans.
+        </p>
+        <button className="text-[#00D09C] text-sm font-semibold hover:underline flex items-center gap-1 mx-auto">
+          Contact Sales <Zap size={14} className="fill-current" />
+        </button>
+      </div>
+
+    </div>
+  );
 };
 
 export default PricingPage;
