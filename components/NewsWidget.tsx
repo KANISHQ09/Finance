@@ -268,25 +268,13 @@ const NewsModal = ({
  *  4. Also intercept window.location changes via a beforeunload guard.
  *  5. On intercept → open NewsModal with the captured URL.
  */
-const NewsWidget = () => {
+const NewsWidgetInner = () => {
     const height = 600;
-    const containerRef = useTradingViewWidget(
-        'https://s3.tradingview.com/external-embedding/embed-widget-timeline.js',
-        TOP_STORIES_WIDGET_CONFIG,
-        height
-    );
-
     const [activeArticle, setActiveArticle] = useState<NewsArticle | null>(null);
 
     // ── Intercept postMessage from TradingView iframes ──────────────────────
     useEffect(() => {
         const handleMessage = (event: MessageEvent) => {
-            // Only handle messages from tradingview.com origins
-            if (
-                typeof event.origin === 'string' &&
-                !event.origin.includes('tradingview.com')
-            ) return;
-
             try {
                 const data =
                     typeof event.data === 'string'
@@ -328,23 +316,34 @@ const NewsWidget = () => {
         return () => window.removeEventListener('beforeunload', handleBeforeUnload);
     }, [activeArticle]);
 
-    // ── Overlay click handler ────────────────────────────────────────────────
-    // The overlay sits on top of the iframe and catches pointer events.
-    // When clicked, we try to retrieve the pending navigation URL from
-    // TradingView's own anchor tags by querying the iframe's document
-    // (only works on same-origin — TV is cross-origin so this is a fallback).
-    const overlayRef = useRef<HTMLDivElement>(null);
-
-    const handleOverlayClick = useCallback((e: React.MouseEvent) => {
-        // Since the widget is cross-origin we can't read the iframe DOM directly.
-        // The postMessage handler above is the real interception path.
-        // The overlay here just ensures pointer events don't pass through to
-        // the iframe links directly (blocking the default navigation).
-        e.preventDefault();
-        e.stopPropagation();
-    }, []);
-
     const handleClose = useCallback(() => setActiveArticle(null), []);
+
+    const srcDoc = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="utf-8" />
+            <style>
+                body { margin: 0; padding: 0; overflow: hidden; background: transparent; }
+                .tradingview-widget-container { width: 100%; height: 100%; }
+            </style>
+        </head>
+        <body>
+            <div class="tradingview-widget-container">
+                <div class="tradingview-widget-container__widget" style="width: 100%; height: ${height}px;"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js" async>
+                    ${JSON.stringify(TOP_STORIES_WIDGET_CONFIG)}
+                </script>
+            </div>
+            <script>
+                // Forward postMessage events from the TradingView iframe up to the parent React window
+                window.addEventListener('message', function(e) {
+                    window.parent.postMessage(e.data, '*');
+                });
+            </script>
+        </body>
+        </html>
+    `;
 
     return (
         <>
@@ -354,31 +353,12 @@ const NewsWidget = () => {
                 <div
                     className="w-full h-full flex flex-col p-5"
                 >
-                    <div
-                        className="tradingview-widget-container flex-1"
-                        ref={containerRef}
-                    >
-                        <div
-                            className="tradingview-widget-container__widget"
-                            style={{ height, width: '100%' }}
-                        />
-                    </div>
+                    <iframe 
+                        srcDoc={srcDoc}
+                        style={{ width: '100%', height: '100%', border: 'none' }}
+                        sandbox="allow-scripts allow-same-origin"
+                    />
                 </div>
-
-                {/* Transparent pointer-capture overlay — blocks iframe link navigation */}
-                <div
-                    ref={overlayRef}
-                    onClick={handleOverlayClick}
-                    style={{
-                        position: 'absolute',
-                        inset: 0,
-                        zIndex: 10,
-                        cursor: 'pointer',
-                        // Fully transparent — only used to intercept clicks
-                        background: 'transparent',
-                    }}
-                    aria-hidden="true"
-                />
             </div>
 
             {/* In-app article reader modal */}
@@ -387,6 +367,20 @@ const NewsWidget = () => {
             )}
         </>
     );
+};
+
+const NewsWidget = () => {
+    const [refreshKey, setRefreshKey] = useState(0);
+
+    useEffect(() => {
+        // Refresh the widget every 5 minutes to keep data real-time
+        const interval = setInterval(() => {
+            setRefreshKey(prev => prev + 1);
+        }, 5 * 60 * 1000);
+        return () => clearInterval(interval);
+    }, []);
+
+    return <NewsWidgetInner key={refreshKey} />;
 };
 
 export default memo(NewsWidget);
